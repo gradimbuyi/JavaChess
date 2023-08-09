@@ -1,8 +1,13 @@
 package Pieces;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JLabel;
+import javax.swing.ImageIcon;
+import java.awt.Image;
 
+/**
+ * @author Gradi Tshielekeja Mbuyi
+ * @version 1.0
+ */
 public abstract class Piece {
     private Integer locationX;
     private Integer locationY;
@@ -10,6 +15,13 @@ public abstract class Piece {
     private Boolean color;
     private JLabel image;
 
+    /**
+     *
+     * @param type
+     * @param color
+     * @param locationX
+     * @param locationY
+     */
     public Piece(String type, boolean color, int locationX, int locationY) {
         this.type = type;
         this.color = color;
@@ -17,6 +29,10 @@ public abstract class Piece {
         this.locationY = locationY;
     }
 
+    /**
+     *
+     * @return
+     */
     public abstract Integer[] legalMoves();
 
     public void setImage(String fileName) {
@@ -27,7 +43,11 @@ public abstract class Piece {
         image = new JLabel(finalImage);
     }
 
-    public JLabel getImage(){
+    public JLabel getImage() {
         return image;
+    }
+
+    public String getType() {
+        return type;
     }
 }
