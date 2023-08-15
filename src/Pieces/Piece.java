@@ -1,5 +1,8 @@
 package Pieces;
 
+import Graphic.Tile;
+import Main.Game;
+
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import java.awt.Image;
@@ -9,11 +12,14 @@ import java.awt.Image;
  * @version 1.0
  */
 public abstract class Piece {
+    private final String type;
+    private final Boolean color;
+
     private Integer locationX;
     private Integer locationY;
-    private String type;
-    private Boolean color;
     private JLabel image;
+
+    private static String FEN_STRING = Game.getFenNotation();
 
     /**
      *
@@ -29,10 +35,7 @@ public abstract class Piece {
         this.locationY = locationY;
     }
 
-    /**
-     *
-     * @return
-     */
+
     public abstract Integer[] legalMoves();
 
     public void setImage(String fileName) {
@@ -41,6 +44,15 @@ public abstract class Piece {
         temporary = temporary.getScaledInstance(105, 105, Image.SCALE_SMOOTH);
         finalImage = new ImageIcon(temporary);
         image = new JLabel(finalImage);
+    }
+
+    public void updateFenString(Tile[][] tiles) {
+        for(int locationX = 0; locationX < 8; locationX++) {
+            for(int locationY = 0; locationY < 8; locationY++) {
+
+            }
+        }
+
     }
 
     public JLabel getImage() {

@@ -11,6 +11,7 @@ public class Pawn extends Piece{
 
     @Override
     public Integer[] legalMoves() {
+
         return new Integer[4];
     }
 }
