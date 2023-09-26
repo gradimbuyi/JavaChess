@@ -20,6 +20,11 @@ import java.awt.event.MouseListener;
 public class Board {
     private static JFrame BOARD_FRAME;
     private static JPanel BOARD_PANEL;
+    private static final Integer FRAME_WIDTH = 920;
+    private static final Integer FRAME_HEIGHT = 948;
+    private static final Integer PANEL_WIDTH = 920;
+    private static final Integer PANEL_HEIGHT = 920;
+    private static final GridLayout GRID_LAYOUT = new GridLayout(8, 8);
     private final Tile[][] TILE_MATRIX;
 
     /**
@@ -28,20 +33,22 @@ public class Board {
      */
     public Board(MouseListener mouseListener) {
         BOARD_FRAME = new JFrame();
-        BOARD_FRAME.setTitle("Chess Game using Java Swing");
-        BOARD_FRAME.setSize(920, 948);
+        BOARD_FRAME.setTitle("Chess");
+        BOARD_FRAME.setSize(FRAME_WIDTH, FRAME_HEIGHT);
         BOARD_FRAME.setResizable(false);
         BOARD_FRAME.addMouseListener(mouseListener);
         BOARD_FRAME.setLayout(null);
-        BOARD_FRAME.setDefaultCloseOperation(3);
+        BOARD_FRAME.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         BOARD_FRAME.setLocationRelativeTo(null);
-        BOARD_PANEL = new JPanel(new GridLayout(8,8));
-        BOARD_PANEL.setSize(920, 920);
-        BOARD_PANEL.setBounds(0, 0, 920, 920);
+        BOARD_PANEL = new JPanel(GRID_LAYOUT);
+        BOARD_PANEL.setSize(PANEL_WIDTH, PANEL_HEIGHT);
+        BOARD_PANEL.setBounds(0, 0, PANEL_WIDTH, PANEL_HEIGHT);
         BOARD_FRAME.getContentPane().add(BOARD_PANEL);
-
         TILE_MATRIX = new Tile[8][8];
+        drawBoard();
+    }
 
+    private void drawBoard() {
         for(int locationX = 0; locationX < 8; locationX++) {
             for(int locationY = 0; locationY < 8; locationY++) {
                 Tile tile = new Tile(7 - locationX, locationY);
@@ -82,11 +89,6 @@ public class Board {
         return piece;
     }
 
-    /**
-     *
-     * @param fenNotation
-     * @return
-     */
     public Piece[][] generatePieces(String fenNotation) {
         Piece[][] pieces = new Piece[8][8];
         Piece piece = null;
@@ -118,7 +120,6 @@ public class Board {
                 i = fenNotation.length();
             }
         }
-
 
         return pieces;
     }

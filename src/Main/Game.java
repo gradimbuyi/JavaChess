@@ -38,7 +38,7 @@ public class Game implements MouseListener {
         tile.getPiece().legalMoves();
 
         if(tile.isOccupied) {
-            tile.removePiece();
+            //tile.removePiece();
             System.out.println(fenNotation);
         }
     }
