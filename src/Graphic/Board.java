@@ -7,19 +7,23 @@ import Pieces.Pawn;
 import Pieces.Queen;
 import Pieces.Rook;
 import Pieces.Piece;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JLayeredPane;
 import java.awt.GridLayout;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+import java.util.ArrayList;
 
 /**
+ *
  * @author Gradi Tshielekeja Mbuyi
  * @version 1.0
  */
 public class Board {
     private static JFrame BOARD_FRAME;
     private static JPanel BOARD_PANEL;
+    private static JLayeredPane LAYERED_PANE;
     private static final Integer FRAME_WIDTH = 920;
     private static final Integer FRAME_HEIGHT = 948;
     private static final Integer PANEL_WIDTH = 920;
@@ -27,36 +31,28 @@ public class Board {
     private static final GridLayout GRID_LAYOUT = new GridLayout(8, 8);
     private final Tile[][] TILE_MATRIX;
 
-    /**
-     *
-     * @param mouseListener
-     */
-    public Board(MouseListener mouseListener) {
+    public Board(MouseListener mouseListener, MouseMotionListener mouseMotionListener, ArrayList<Piece> pieces) {
         BOARD_FRAME = new JFrame();
+        LAYERED_PANE = new JLayeredPane();
+        LAYERED_PANE.setSize(PANEL_WIDTH, PANEL_HEIGHT);
+        LAYERED_PANE.addMouseListener(mouseListener);
+        LAYERED_PANE.addMouseMotionListener(mouseMotionListener);
+        BOARD_FRAME.getContentPane().add(LAYERED_PANE);
         BOARD_FRAME.setTitle("Chess");
         BOARD_FRAME.setSize(FRAME_WIDTH, FRAME_HEIGHT);
         BOARD_FRAME.setResizable(false);
-        BOARD_FRAME.addMouseListener(mouseListener);
         BOARD_FRAME.setLayout(null);
         BOARD_FRAME.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         BOARD_FRAME.setLocationRelativeTo(null);
         BOARD_PANEL = new JPanel(GRID_LAYOUT);
         BOARD_PANEL.setSize(PANEL_WIDTH, PANEL_HEIGHT);
         BOARD_PANEL.setBounds(0, 0, PANEL_WIDTH, PANEL_HEIGHT);
-        BOARD_FRAME.getContentPane().add(BOARD_PANEL);
+        LAYERED_PANE.add(BOARD_PANEL, JLayeredPane.DEFAULT_LAYER);
         TILE_MATRIX = new Tile[8][8];
-        drawBoard();
-    }
-
-    private void drawBoard() {
-        for(int locationX = 0; locationX < 8; locationX++) {
-            for(int locationY = 0; locationY < 8; locationY++) {
-                Tile tile = new Tile(7 - locationX, locationY);
-
-                TILE_MATRIX[7 - locationX][locationY] = tile;
-                BOARD_PANEL.add(tile);
-            }
+        for(int i = 0; i < 8; i++) for(int y = 0; y < 8; y++) {
+            BOARD_PANEL.add(TILE_MATRIX[7 - i][y] = new Tile(7 - i, y));
         }
+        addPieces(pieces);
     }
 
     /**
@@ -72,56 +68,39 @@ public class Board {
      * @return Returns the generated piece.
      */
     private Piece generatePiece(char name, boolean color, int locationX, int locationY) {
-        Piece piece = null; name = Character.toLowerCase(name);
+        Piece piece = null;
+        name = Character.toLowerCase(name);
 
-        if(name == 'k') piece = new King("king", color, locationX, locationY);
-        else if(name == 'q') piece = new Queen("queen", color, locationX, locationY);
-        else if(name == 'r') piece = new Rook("rook", color, locationX, locationY);
-        else if(name == 'n') piece = new Knight("knight", color, locationX, locationY);
-        else if(name == 'b') piece = new Bishop("bishop", color, locationX, locationY);
-        else if(name == 'p') piece = new Pawn("pawn", color, locationX, locationY);
-        else return null;
-
-        if(color) piece.setImage("./images/white_" + piece.getType() + ".png");
-        else piece.setImage("./images/black_" + piece.getType() + ".png");
+        switch (name) {
+            case 'k': piece = new King("king", color, locationX, locationY);      break;
+            case 'q': piece = new Queen("queen", color, locationX, locationY);    break;
+            case 'r': piece = new Rook("rook", color, locationX, locationY);      break;
+            case 'n': piece = new Knight("knight", color, locationX, locationY);  break;
+            case 'b': piece = new Bishop("bishop", color, locationX, locationY);  break;
+            case 'p': piece = new Pawn("pawn", color, locationX, locationY);      break;
+            default: return null;
+        }
 
         TILE_MATRIX[locationY][locationX].setPiece(piece);
         return piece;
     }
 
-    public Piece[][] generatePieces(String fenNotation) {
-        Piece[][] pieces = new Piece[8][8];
-        Piece piece = null;
-
-        int locationX = 0;
-        int locationY = 7;
-
-        for(int i = 0; i < fenNotation.length(); i++) {
-            char buffer = fenNotation.charAt(i);
-
-            if(Character.isAlphabetic(buffer) && Character.isLowerCase(buffer)) {
-                piece = generatePiece(buffer, false, locationX, locationY);
-                pieces[locationX][locationY] = piece;
-                locationX++;
-
-            } else if(Character.isAlphabetic(buffer)) {
-                piece = generatePiece(buffer, true, locationX, locationY);
-                pieces[locationX][locationY] = piece;
-                locationX++;
-
-            } else if(Character.isDigit(buffer)) {
-                locationX += Character.getNumericValue(buffer);
-
-            } else if(buffer == '/') {
-                locationX = 0;
-                locationY--;
-
-            } else {
-                i = fenNotation.length();
-            }
+    private void addPieces(ArrayList<Piece> pieces) {
+        for(int i = 0; i < 8; i++) {
+            pieces.add(generatePiece('p', true, i, 1));
+            pieces.add(generatePiece('p', false, i, 6));
         }
 
-        return pieces;
+        for(int i = 0; i < 2; i++) {
+            pieces.add(generatePiece('r', i == 0, 0, i * 7));
+            pieces.add(generatePiece('n', i == 0, 1, i * 7));
+            pieces.add(generatePiece('b', i == 0, 2, i * 7));
+            pieces.add(generatePiece('q', i == 0, 3, i * 7));
+            pieces.add(generatePiece('k', i == 0, 4, i * 7));
+            pieces.add(generatePiece('b', i == 0, 5, i * 7));
+            pieces.add(generatePiece('n', i == 0, 6, i * 7));
+            pieces.add(generatePiece('r', i == 0, 7, i * 7));
+        }
     }
 
     public Tile[][] getTiles() {
@@ -130,5 +109,13 @@ public class Board {
 
     public void setVisible() {
         BOARD_FRAME.setVisible(true);
+    }
+
+    public JPanel getBoardPanel(){
+        return BOARD_PANEL;
+    }
+
+    public JLayeredPane getLayeredPane() {
+        return LAYERED_PANE;
     }
 }

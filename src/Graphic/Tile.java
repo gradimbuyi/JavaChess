@@ -18,10 +18,8 @@ public class Tile extends JPanel {
         this.locationX = locationX;
         this.locationY = locationY;
         this.piece = null;
-
         if((locationX % 2) == (locationY % 2)) color = LIGHT;
         else color = DARK;
-
         setBackground(color);
     }
 
@@ -30,12 +28,14 @@ public class Tile extends JPanel {
 
         if(piece != null) {
             this.isOccupied = true;
-            this.add(piece.getImage());
+            this.add(piece.getPiece());
         }
+
+        this.repaint();
     }
 
     public void changeColor() {
-        if(isSelected == false) {
+        if(!isSelected) {
             isSelected = true;
             setBackground(Color.decode("#f25c5c"));
 
@@ -48,12 +48,20 @@ public class Tile extends JPanel {
     public void removePiece() {
         if(this.piece == null) return ;
         this.isOccupied = false;
-        this.remove(piece.getImage());
+        this.remove(piece.getPiece());
         this.piece = null;
         repaint();
     }
 
     public Piece getPiece() {
         return piece;
+    }
+
+    public Integer getLocationX() {
+        return locationX;
+    }
+
+    public Integer getLocationY() {
+        return locationY;
     }
 }
