@@ -81,7 +81,7 @@ public class Board {
             default: return null;
         }
 
-        TILE_MATRIX[locationY][locationX].setPiece(piece);
+        TILE_MATRIX[locationY][locationX].addPiece(piece);
         return piece;
     }
 
