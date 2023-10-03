@@ -24,12 +24,16 @@ public class Game implements MouseListener, MouseMotionListener {
     private static Integer locationX;
     private static Integer locationY;
 
+    // if turn == true white has to go, else black has to go
+    private static Boolean shouldWhiteMove;
+
     public Game() {
         pieces = new ArrayList<>();
         board = new Board( this, this, pieces);
         sourceTile = null;
         destinationTile = null;
         selectedPiece = null;
+        shouldWhiteMove = true;
         board.setVisible();
     }
 
@@ -39,6 +43,7 @@ public class Game implements MouseListener, MouseMotionListener {
 
         if(component instanceof Piece) {
             selectedPiece = (Piece) component;
+            if(shouldWhiteMove != selectedPiece.getColor()) { selectedPiece = null; return; }
             sourceTile = (Tile) selectedPiece.getParent();
             locationX = sourceTile.getX() - event.getX();
             locationY = sourceTile.getY() - event.getY();
@@ -74,21 +79,19 @@ public class Game implements MouseListener, MouseMotionListener {
             if(component instanceof Piece) destinationTile = (Tile) component.getParent();
             else destinationTile = (Tile) component;
             destinationTile.addPiece(selectedPiece);
-            if(sourceTile != destinationTile) sourceTile.removePiece();
+
+            if(sourceTile != destinationTile) {
+                selectedPiece.legalMoves();
+                sourceTile.removePiece();
+                shouldWhiteMove = !shouldWhiteMove;
+            }
         }
 
         selectedPiece = null;
     }
 
-    @Override
-    public void mouseClicked(MouseEvent event) {
-        Component component = board.getBoardPanel().findComponentAt(event.getX(), event.getY());
-        if(component instanceof Piece) selectedPiece = (Piece) component;
-    }
-
     /* UNSUPPORTED OPERATIONS */
     ///////////////////////////////////////////////////////////////
-
     @Override
     public void mouseEntered(MouseEvent e) {}
 
@@ -97,6 +100,9 @@ public class Game implements MouseListener, MouseMotionListener {
 
     @Override
     public void mouseMoved(MouseEvent e) {}
+
+    @Override
+    public void mouseClicked(MouseEvent event) {}
     ///////////////////////////////////////////////////////////////
 
     public static void main(String[] args) {

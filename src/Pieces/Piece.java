@@ -1,4 +1,6 @@
 package Pieces;
+import Graphic.Board;
+
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import java.awt.Image;
@@ -36,5 +38,9 @@ public abstract class Piece extends JLabel {
     public void updateLocation(int locationX, int locationY) {
         this.locationX = locationX;
         this.locationY = locationY;
+    }
+
+    public Boolean getColor() {
+        return color;
     }
 }

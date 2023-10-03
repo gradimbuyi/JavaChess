@@ -7,15 +7,16 @@ import Pieces.Pawn;
 import Pieces.Queen;
 import Pieces.Rook;
 import Pieces.Piece;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JLayeredPane;
+
+import javax.swing.*;
 import java.awt.GridLayout;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 
 /**
+ * The class Board is in charge of presenting the 64 tiles that make up a chess board, as well as
+ * the pieces that are within
  *
  * @author Gradi Tshielekeja Mbuyi
  * @version 1.0
@@ -31,6 +32,19 @@ public class Board {
     private static final GridLayout GRID_LAYOUT = new GridLayout(8, 8);
     private final Tile[][] TILE_MATRIX;
 
+    /**
+     * The constructor for the Board class produces a JFrame with a width of 920 pixels and a height of
+     * 948 pixels, as well as a Panel and LayerPane of 920x920 pixels. It takes as parameter an array list
+     * of pieces, alongside a mouse listener and a mouse motion listener. The array list allows us to keep
+     * track of which pieces are present on the board, whereas both listener allows the user to interact
+     * with those pieces.
+     *
+     * The chess board is a 2D array made up of 64 tiles, where each tile has different color than its adjacent tile.
+     *
+     * @param mouseListener added to layered pane to allow user to click and drop pieces
+     * @param mouseMotionListener added to layered pane to allow user to press and drag pieces
+     * @param pieces array list of pieces
+     */
     public Board(MouseListener mouseListener, MouseMotionListener mouseMotionListener, ArrayList<Piece> pieces) {
         BOARD_FRAME = new JFrame();
         LAYERED_PANE = new JLayeredPane();
@@ -85,6 +99,12 @@ public class Board {
         return piece;
     }
 
+    /**
+     * This method is called within the constructor of the Board class. It generates all the chess pieces
+     * in their initially position and save each pieces in an array list.
+     *
+     * @param pieces an array list which keeps track of how many pieces are on the board
+     */
     private void addPieces(ArrayList<Piece> pieces) {
         for(int i = 0; i < 8; i++) {
             pieces.add(generatePiece('p', true, i, 1));
@@ -103,6 +123,7 @@ public class Board {
         }
     }
 
+    /** GETTERS AND SETTERS **/
     public Tile[][] getTiles() {
         return TILE_MATRIX;
     }
