@@ -11,7 +11,7 @@ public class Tile extends JPanel {
     private final Integer locationY;
     private final Color color;
     private Piece piece;
-    private Boolean isOccupied;
+    public Boolean isOccupied;
 
     public Tile(int locationX, int locationY) {
         this.locationX = locationX;
@@ -49,5 +49,17 @@ public class Tile extends JPanel {
 
     public Integer getLocationY() {
         return locationY;
+    }
+
+    public Boolean checkPieceColor() {
+        if(isOccupied) return piece.getColor();
+        return null;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        Tile tile = (Tile) obj;
+        if(this.locationX.intValue() == tile.locationX.intValue() && this.locationY.intValue() == tile.locationY.intValue()) return true;
+        return false;
     }
 }

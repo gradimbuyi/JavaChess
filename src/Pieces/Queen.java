@@ -1,5 +1,10 @@
 package Pieces;
 
+import Graphic.Board;
+import Graphic.Tile;
+
+import java.util.ArrayList;
+
 /**
  * @author Gradi Tshielekeja Mbuyi
  * @version 1.0
@@ -10,7 +15,12 @@ public class Queen extends Piece {
     }
 
     @Override
-    public Integer[] legalMoves() {
-        return new Integer[0];
+    public ArrayList<Tile> legalMoves(Board board) {
+        Tile[][] squares = board.getTiles();
+        ArrayList<Tile> moves = new ArrayList<>();
+
+
+
+        return new ArrayList<>();
     }
 }

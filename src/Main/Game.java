@@ -78,10 +78,19 @@ public class Game implements MouseListener, MouseMotionListener {
 
             if(component instanceof Piece) destinationTile = (Tile) component.getParent();
             else destinationTile = (Tile) component;
+
             destinationTile.addPiece(selectedPiece);
 
+            if(!selectedPiece.checkIfValid(selectedPiece.legalMoves(board), destinationTile))
+            {
+                destinationTile.removePiece();
+                sourceTile.addPiece(selectedPiece);
+                selectedPiece = null;
+                return;
+            }
+
+
             if(sourceTile != destinationTile) {
-                selectedPiece.legalMoves();
                 sourceTile.removePiece();
                 shouldWhiteMove = !shouldWhiteMove;
             }

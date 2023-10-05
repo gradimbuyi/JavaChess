@@ -8,7 +8,9 @@ import Pieces.Queen;
 import Pieces.Rook;
 import Pieces.Piece;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JLayeredPane;
 import java.awt.GridLayout;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
