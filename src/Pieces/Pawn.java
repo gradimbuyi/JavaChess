@@ -1,5 +1,4 @@
 package Pieces;
-
 import Graphic.Board;
 import Graphic.Tile;
 
@@ -21,17 +20,24 @@ public class Pawn extends Piece {
         Tile[][] squares = board.getTiles();
         ArrayList<Tile> moves = new ArrayList<>();
 
-        if(locationY + 1 > 7) return null;
-        if(!squares[locationX][locationY + 1].isOccupied) moves.add(squares[locationX][locationY + 1]);
-        if(isFirstMove && !squares[locationX][locationY + 2].isOccupied) moves.add(squares[locationX][locationY + 2]);
-        if(locationX - 1 >= 0 && squares[locationX - 1][locationY + 1].checkPieceColor() != color) moves.add(squares[locationX - 1][locationY + 1]);
-        if(locationX + 1 <= 7 && squares[locationX + 1][locationY + 1].checkPieceColor() != color) moves.add(squares[locationX + 1][locationY + 1]);
+        if(locationX - 1 < 0) return null;
+        if(!squares[locationX - 1][locationY].isOccupied) moves.add(squares[locationX - 1][locationY]); else return moves;
+        if(isFirstMove && !squares[locationX - 2][locationY].isOccupied) moves.add(squares[locationX - 2][locationY]);
+        if(locationY - 1 >= 0 && squares[locationX - 1][locationY - 1].checkPieceColor() == color) moves.add(squares[locationX - 1][locationY - 1]);
+        if(locationY + 1 <= 7 && squares[locationX - 1][locationY + 1].checkPieceColor() == color) moves.add(squares[locationX - 1][locationY + 1]);
+
         return moves;
     }
 
     private ArrayList<Tile> blackMoves(Board board) {
         Tile[][] squares = board.getTiles();
         ArrayList<Tile> moves = new ArrayList<>();
+
+        if(locationX + 1 > 7) return null;
+        if(!squares[locationX + 1][locationY].isOccupied) moves.add(squares[locationX + 1][locationY]); else return moves;
+        if(isFirstMove && !squares[locationX + 2][locationY].isOccupied) moves.add(squares[locationX + 2][locationY]);
+        if(locationY - 1 >= 0 && squares[locationX + 1][locationY - 1].checkPieceColor() == color) moves.add(squares[locationX + 1][locationY - 1]);
+        if(locationY + 1 <= 7 && squares[locationX + 1][locationY + 1].checkPieceColor() == color) moves.add(squares[locationX + 1][locationY + 1]);
 
         return moves;
     }

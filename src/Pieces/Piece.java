@@ -29,14 +29,7 @@ public abstract class Piece extends JLabel {
     public abstract ArrayList<Tile> legalMoves(Board board);
 
     public Boolean checkIfValid(ArrayList<Tile> moves, Tile destinationTile) {
-        for(Tile move : moves) {
-
-            System.out.println("Destination Tile X: " + destinationTile.getLocationX() + " Destination Tile Y: " + destinationTile.getLocationY());
-            System.out.println("Move Tile X: " + move.getLocationX() + "Move Tile Y: " + move.getLocationY());
-            System.out.println("");
-            //System.out.println(move.equals(destinationTile));
-            if(move == destinationTile) return true;
-        }
+        if(moves.size() > 0) for(Tile move : moves) if(move == destinationTile) return true;
         return false;
     }
 
@@ -47,5 +40,22 @@ public abstract class Piece extends JLabel {
 
     public Boolean getColor() {
         return color;
+    }
+
+    public int getLocationX() {
+        return locationX;
+    }
+
+    public int getLocationY() {
+        return locationY;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void changeLocation(int locationX, int locationY) {
+        this.locationX = locationX;
+        this.locationY = locationY;
     }
 }

@@ -16,7 +16,10 @@ public class Knight extends Piece {
 
     @Override
     public ArrayList<Tile> legalMoves(Board board) {
-        return null;
+        Tile[][] squares = board.getTiles();
+        ArrayList<Tile> moves = new ArrayList<>();
+
+        return new ArrayList<>();
     }
 
 }

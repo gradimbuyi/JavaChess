@@ -1,5 +1,6 @@
 package Graphic;
 
+import Main.GameUtils;
 import Pieces.Bishop;
 import Pieces.King;
 import Pieces.Knight;
@@ -7,7 +8,6 @@ import Pieces.Pawn;
 import Pieces.Queen;
 import Pieces.Rook;
 import Pieces.Piece;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JLayeredPane;
@@ -66,9 +66,12 @@ public class Board {
         LAYERED_PANE.add(BOARD_PANEL, JLayeredPane.DEFAULT_LAYER);
         TILE_MATRIX = new Tile[8][8];
         for(int i = 0; i < 8; i++) for(int y = 0; y < 8; y++) {
-            BOARD_PANEL.add(TILE_MATRIX[7 - i][y] = new Tile(7 - i, y));
+            BOARD_PANEL.add(TILE_MATRIX[i][y] = new Tile(i, y));
         }
         addPieces(pieces);
+
+        GameUtils.printOCCUPATION(TILE_MATRIX);
+        GameUtils.printBOARD(TILE_MATRIX);
     }
 
     /**
@@ -97,7 +100,7 @@ public class Board {
             default: return null;
         }
 
-        TILE_MATRIX[locationY][locationX].addPiece(piece);
+        TILE_MATRIX[locationX][locationY].addPiece(piece);
         return piece;
     }
 
@@ -109,19 +112,19 @@ public class Board {
      */
     private void addPieces(ArrayList<Piece> pieces) {
         for(int i = 0; i < 8; i++) {
-            pieces.add(generatePiece('p', true, i, 1));
-            pieces.add(generatePiece('p', false, i, 6));
+            pieces.add(generatePiece('p', true, 6, i));
+            pieces.add(generatePiece('p', false, 1, i));
         }
 
         for(int i = 0; i < 2; i++) {
-            pieces.add(generatePiece('r', i == 0, 0, i * 7));
-            pieces.add(generatePiece('n', i == 0, 1, i * 7));
-            pieces.add(generatePiece('b', i == 0, 2, i * 7));
-            pieces.add(generatePiece('q', i == 0, 3, i * 7));
-            pieces.add(generatePiece('k', i == 0, 4, i * 7));
-            pieces.add(generatePiece('b', i == 0, 5, i * 7));
-            pieces.add(generatePiece('n', i == 0, 6, i * 7));
-            pieces.add(generatePiece('r', i == 0, 7, i * 7));
+            pieces.add(generatePiece('r', i != 0, i * 7, 0));
+            pieces.add(generatePiece('n', i != 0, i * 7, 1));
+            pieces.add(generatePiece('b', i != 0, i * 7, 2));
+            pieces.add(generatePiece('q', i != 0, i * 7, 3));
+            pieces.add(generatePiece('k', i != 0, i * 7, 4));
+            pieces.add(generatePiece('b', i != 0, i * 7, 5));
+            pieces.add(generatePiece('n', i != 0, i * 7, 6));
+            pieces.add(generatePiece('r', i != 0, i * 7, 7));
         }
     }
 
