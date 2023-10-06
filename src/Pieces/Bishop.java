@@ -21,9 +21,4 @@ public class Bishop extends Piece {
 
         return new ArrayList<>();
     }
-
-    @Override
-    public Boolean checkIfValid(ArrayList<Tile> moves, Tile destinationTile) {
-        return null;
-    }
 }

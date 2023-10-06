@@ -19,7 +19,47 @@ public class Knight extends Piece {
         Tile[][] squares = board.getTiles();
         ArrayList<Tile> moves = new ArrayList<>();
 
-        return new ArrayList<>();
+        if(locationX + 2 <= 7 && locationY - 1 >= 0) {
+            Tile possibleMove = squares[locationX + 2][locationY - 1];
+            if(possibleMove.checkPieceColor() == null || possibleMove.checkPieceColor() == color) moves.add(possibleMove);
+        }
+
+        if(locationX + 2 <= 7 && locationY + 1 <= 7) {
+            Tile possibleMove = squares[locationX + 2][locationY + 1];
+            if(possibleMove.checkPieceColor() == null || possibleMove.checkPieceColor() == color) moves.add(possibleMove);
+        }
+
+        if(locationX + 1 <= 7 && locationY - 2 >= 0) {
+            Tile possibleMove = squares[locationX + 1][locationY - 2];
+            if(possibleMove.checkPieceColor() == null || possibleMove.checkPieceColor() == color) moves.add(possibleMove);
+        }
+
+        if(locationX - 1 >= 0 && locationY - 2 >= 0) {
+            Tile possibleMove = squares[locationX - 1][locationY - 2];
+            if(possibleMove.checkPieceColor() == null || possibleMove.checkPieceColor() == color) moves.add(possibleMove);
+        }
+
+        if(locationX - 2 >= 0 && locationY - 1 >= 0) {
+            Tile possibleMove = squares[locationX - 2][locationY - 1];
+            if(possibleMove.checkPieceColor() == null || possibleMove.checkPieceColor() == color) moves.add(possibleMove);
+        }
+
+        if(locationX - 2 >= 0 && locationY + 1 <= 7) {
+            Tile possibleMove = squares[locationX - 2][locationY + 1];
+            if(possibleMove.checkPieceColor() == null || possibleMove.checkPieceColor() == color) moves.add(possibleMove);
+        }
+
+        if(locationX + 1 <= 7 && locationY + 2 <= 7) {
+            Tile possibleMove = squares[locationX + 1][locationY + 2];
+            if(possibleMove.checkPieceColor() == null || possibleMove.checkPieceColor() == color) moves.add(possibleMove);
+        }
+
+        if(locationX - 1 >= 0 && locationY + 2 <= 7) {
+            Tile possibleMove = squares[locationX - 1][locationY + 2];
+            if(possibleMove.checkPieceColor() == null || possibleMove.checkPieceColor() == color) moves.add(possibleMove);
+        }
+
+        return moves;
     }
 
 }

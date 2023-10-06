@@ -19,11 +19,53 @@ public class King extends Piece {
         Tile[][] squares = board.getTiles();
         ArrayList<Tile> moves = new ArrayList<>();
 
-        return new ArrayList<>();
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        if(locationX + 1 <= 7) {
+            Tile possibleMove = squares[locationX + 1][locationY];
+            if(possibleMove.checkPieceColor() == null || possibleMove.checkPieceColor() == color) moves.add(possibleMove);
+        }
+
+        if(locationY + 1 <= 7) {
+            Tile possibleMove = squares[locationX][locationY + 1];
+            if(possibleMove.checkPieceColor() == null || possibleMove.checkPieceColor() == color) moves.add(possibleMove);
+        }
+
+        if(locationX + 1 <= 7 && locationY + 1 <= 7) {
+            Tile possibleMove = squares[locationX + 1][locationY + 1];
+            if(possibleMove.checkPieceColor() == null || possibleMove.checkPieceColor() == color) moves.add(possibleMove);
+        }
+
+        if(locationX + 1 <= 7 && locationY - 1 >= 0) {
+            Tile possibleMove = squares[locationX + 1][locationY - 1];
+            if(possibleMove.checkPieceColor() == null || possibleMove.checkPieceColor() == color) moves.add(possibleMove);
+        }
+
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        if(locationX - 1 >= 0) {
+            Tile possibleMove = squares[locationX - 1][locationY];
+            if(possibleMove.checkPieceColor() == null || possibleMove.checkPieceColor() == color) moves.add(possibleMove);
+        }
+
+        if(locationY - 1 >= 0) {
+            Tile possibleMove = squares[locationX][locationY - 1];
+            if(possibleMove.checkPieceColor() == null || possibleMove.checkPieceColor() == color) moves.add(possibleMove);
+        }
+
+        if(locationX - 1 >= 0 && locationY + 1 <= 7) {
+            Tile possibleMove = squares[locationX - 1][locationY + 1];
+            if(possibleMove.checkPieceColor() == null || possibleMove.checkPieceColor() == color) moves.add(possibleMove);
+        }
+
+        if(locationX - 1 >= 0 && locationY - 1 >= 0) {
+            Tile possibleMove = squares[locationX - 1][locationY - 1];
+            if(possibleMove.checkPieceColor() == null || possibleMove.checkPieceColor() == color) moves.add(possibleMove);
+        }
+
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        return moves;
     }
 
-    @Override
-    public Boolean checkIfValid(ArrayList<Tile> moves, Tile destinationTile) {
-        return null;
-    }
 }

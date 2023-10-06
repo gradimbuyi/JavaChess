@@ -16,12 +16,14 @@ public abstract class Piece extends JLabel {
     protected final Boolean color;
     protected Integer locationX;
     protected Integer locationY;
+    protected Integer numMoves;
 
     public Piece(String type, boolean color, int locationX, int locationY) {
         this.type = type;
         this.color = color;
         this.locationX = locationX;
         this.locationY = locationY;
+        this.numMoves = 0;
         if(this.color) setImage("./images/white_" + this.type + ".png");
         else setImage("./images/black_" + this.type + ".png");
     }
@@ -42,14 +44,6 @@ public abstract class Piece extends JLabel {
         return color;
     }
 
-    public int getLocationX() {
-        return locationX;
-    }
-
-    public int getLocationY() {
-        return locationY;
-    }
-
     public String getType() {
         return type;
     }
@@ -57,5 +51,9 @@ public abstract class Piece extends JLabel {
     public void changeLocation(int locationX, int locationY) {
         this.locationX = locationX;
         this.locationY = locationY;
+    }
+
+    public void hasMoved() {
+        numMoves++;
     }
 }

@@ -23,8 +23,6 @@ public class Game implements MouseListener, MouseMotionListener {
     private static Tile destinationTile;
     private static Integer locationX;
     private static Integer locationY;
-
-    // if turn == true white has to go, else black has to go
     private static Boolean shouldWhiteMove;
 
     public Game() {
@@ -35,6 +33,28 @@ public class Game implements MouseListener, MouseMotionListener {
         selectedPiece = null;
         shouldWhiteMove = true;
         board.setVisible();
+    }
+
+    private void movePiece() {
+        ArrayList<Tile> moves = selectedPiece.legalMoves(board);
+
+        if(!selectedPiece.checkIfValid(moves, destinationTile)) {
+            sourceTile.addPiece(selectedPiece);
+            selectedPiece = null;
+            return;
+        }
+
+        destinationTile.addPiece(selectedPiece);
+
+        if(sourceTile != destinationTile) {
+            sourceTile.removePiece();
+            selectedPiece.hasMoved();
+            shouldWhiteMove = !shouldWhiteMove;
+        }
+
+        GameUtils.printBOARD(board.getTiles());
+        System.out.println("----------------");
+        //GameUtils.printOCCUPATION(board.getTiles());
     }
 
     @Override
@@ -78,22 +98,7 @@ public class Game implements MouseListener, MouseMotionListener {
 
             if(component instanceof Piece) destinationTile = (Tile) component.getParent();
             else destinationTile = (Tile) component;
-
-            
-            if(!selectedPiece.checkIfValid(selectedPiece.legalMoves(board), destinationTile))
-            {
-                sourceTile.addPiece(selectedPiece);
-                selectedPiece = null;
-                return;
-            }
-
-            destinationTile.addPiece(selectedPiece);
-            GameUtils.printPieceandLocation(board.getTiles(), selectedPiece.getLocationX(), selectedPiece.getLocationY());
-
-            if(sourceTile != destinationTile) {
-                sourceTile.removePiece();
-                shouldWhiteMove = !shouldWhiteMove;
-            }
+            movePiece();
         }
 
         selectedPiece = null;

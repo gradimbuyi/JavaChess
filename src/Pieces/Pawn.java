@@ -21,8 +21,10 @@ public class Pawn extends Piece {
         ArrayList<Tile> moves = new ArrayList<>();
 
         if(locationX - 1 < 0) return null;
-        if(!squares[locationX - 1][locationY].isOccupied) moves.add(squares[locationX - 1][locationY]); else return moves;
-        if(isFirstMove && !squares[locationX - 2][locationY].isOccupied) moves.add(squares[locationX - 2][locationY]);
+        if(!squares[locationX - 1][locationY].isOccupied) {
+            moves.add(squares[locationX - 1][locationY]);
+            if(isFirstMove && !squares[locationX - 2][locationY].isOccupied) moves.add(squares[locationX - 2][locationY]);
+        }
         if(locationY - 1 >= 0 && squares[locationX - 1][locationY - 1].checkPieceColor() == color) moves.add(squares[locationX - 1][locationY - 1]);
         if(locationY + 1 <= 7 && squares[locationX - 1][locationY + 1].checkPieceColor() == color) moves.add(squares[locationX - 1][locationY + 1]);
 
@@ -34,8 +36,10 @@ public class Pawn extends Piece {
         ArrayList<Tile> moves = new ArrayList<>();
 
         if(locationX + 1 > 7) return null;
-        if(!squares[locationX + 1][locationY].isOccupied) moves.add(squares[locationX + 1][locationY]); else return moves;
-        if(isFirstMove && !squares[locationX + 2][locationY].isOccupied) moves.add(squares[locationX + 2][locationY]);
+        if(!squares[locationX + 1][locationY].isOccupied) {
+            moves.add(squares[locationX + 1][locationY]);
+            if(isFirstMove && !squares[locationX + 2][locationY].isOccupied) moves.add(squares[locationX + 2][locationY]);
+        }
         if(locationY - 1 >= 0 && squares[locationX + 1][locationY - 1].checkPieceColor() == color) moves.add(squares[locationX + 1][locationY - 1]);
         if(locationY + 1 <= 7 && squares[locationX + 1][locationY + 1].checkPieceColor() == color) moves.add(squares[locationX + 1][locationY + 1]);
 
@@ -44,6 +48,8 @@ public class Pawn extends Piece {
 
     @Override
     public ArrayList<Tile> legalMoves(Board board) {
+        isFirstMove = numMoves == 0;
+
         if(color) return whiteMoves(board);
         return blackMoves(board);
     }

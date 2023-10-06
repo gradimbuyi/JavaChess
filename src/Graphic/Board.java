@@ -69,9 +69,6 @@ public class Board {
             BOARD_PANEL.add(TILE_MATRIX[i][y] = new Tile(i, y));
         }
         addPieces(pieces);
-
-        GameUtils.printOCCUPATION(TILE_MATRIX);
-        GameUtils.printBOARD(TILE_MATRIX);
     }
 
     /**
