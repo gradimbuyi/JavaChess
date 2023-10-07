@@ -31,7 +31,6 @@ public class Tile extends JPanel {
 
     public boolean addPiece(Piece piece) {
         boolean hasCaptured = isOccupied;
-
         removePiece();
         this.piece = piece;
         this.piece.changeLocation(locationX, locationY);
@@ -39,7 +38,6 @@ public class Tile extends JPanel {
         this.add(piece);
         this.validate();
         this.repaint();
-
         return hasCaptured;
     }
 
@@ -60,10 +58,4 @@ public class Tile extends JPanel {
         return null;
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        Tile tile = (Tile) obj;
-        if(this.locationX.intValue() == tile.locationX.intValue() && this.locationY.intValue() == tile.locationY.intValue()) return true;
-        return false;
-    }
 }

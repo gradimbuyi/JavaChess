@@ -29,7 +29,7 @@ public class Game implements MouseListener, MouseMotionListener {
     private static Integer locationY;
     private static Boolean shouldWhiteMove;
 
-    public Game() {
+    public Game() throws InterruptedException {
         pieces = new ArrayList<>();
         board = new Board( this, this, pieces);
         sourceTile = null;
@@ -38,7 +38,7 @@ public class Game implements MouseListener, MouseMotionListener {
         shouldWhiteMove = true;
         board.setVisible();
 
-        GameUtils.produceFEN(board.getTiles());
+        GameUtils.TestFenNotation(board.getTiles());
     }
 
     private void movePiece() {
@@ -68,8 +68,8 @@ public class Game implements MouseListener, MouseMotionListener {
         color = selectedPiece.getColor();
 
         //GameUtils.printBOARD(board.getTiles());
-        GameUtils.produceFEN(board.getTiles());
-        //GameUtils.printMoves(type, locationX, locationY, color, hasCaptured);
+        //GameUtils.produceFEN(board.getTiles());
+        GameUtils.printMoves(type, locationX, locationY, color, hasCaptured);
     }
 
     @Override
@@ -134,7 +134,7 @@ public class Game implements MouseListener, MouseMotionListener {
     public void mouseClicked(MouseEvent event) {}
     ///////////////////////////////////////////////////////////////
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         new Game();
     }
 }

@@ -32,7 +32,7 @@ public class Board {
     private static final Integer PANEL_WIDTH = 920;
     private static final Integer PANEL_HEIGHT = 920;
     private static final GridLayout GRID_LAYOUT = new GridLayout(8, 8);
-    private final Tile[][] TILE_MATRIX;
+    private static final Tile[][] TILE_MATRIX = new Tile[8][8];
 
     /**
      * The constructor for the Board class produces a JFrame with a width of 920 pixels and a height of
@@ -64,13 +64,17 @@ public class Board {
         BOARD_PANEL.setSize(PANEL_WIDTH, PANEL_HEIGHT);
         BOARD_PANEL.setBounds(0, 0, PANEL_WIDTH, PANEL_HEIGHT);
         LAYERED_PANE.add(BOARD_PANEL, JLayeredPane.DEFAULT_LAYER);
-        TILE_MATRIX = new Tile[8][8];
 
-        for(int i = 0; i < 8; i++) for(int y = 0; y < 8; y++) {
-            BOARD_PANEL.add(TILE_MATRIX[i][y] = new Tile(i, y));
+        for(int locationX = 0; locationX < 8; locationX++) {
+            for(int locationY = 0; locationY < 8; locationY++) {
+                TILE_MATRIX[locationX][locationY] = new Tile(locationX, locationY);
+                BOARD_PANEL.add(TILE_MATRIX[locationX][locationY]);
+            }
         }
-        addPieces(pieces);
+
+        //addPieces(pieces);
     }
+
 
     /**
      * This method creates a new instance of the piece class and allocates space for the appropriate piece
