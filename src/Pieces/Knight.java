@@ -21,7 +21,7 @@ public class Knight extends Piece {
 
         if(locationX + 2 <= 7 && locationY - 1 >= 0) {
             Tile possibleMove = squares[locationX + 2][locationY - 1];
-            if(possibleMove.checkPieceColor() == null || possibleMove.checkPieceColor() == color) moves.add(possibleMove);
+            if(possibleMove.checkPieceColor() == null || possibleMove.checkPieceColor() == color)  moves.add(possibleMove);
         }
 
         if(locationX + 2 <= 7 && locationY + 1 <= 7) {

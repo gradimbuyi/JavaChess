@@ -3,10 +3,10 @@ package Graphic;
 import Pieces.Piece;
 import javax.swing.JPanel;
 import java.awt.Color;
+import static Main.GameUtils.DARK;
+import static Main.GameUtils.LIGHT;
 
 public class Tile extends JPanel {
-    private static final Color LIGHT = Color.decode("#f0f0f0");
-    private static final Color DARK = Color.decode("#5b80ba");
     private final Integer locationX;
     private final Integer locationY;
     private final Color color;
@@ -29,7 +29,9 @@ public class Tile extends JPanel {
         repaint();
     }
 
-    public void addPiece(Piece piece) {
+    public boolean addPiece(Piece piece) {
+        boolean hasCaptured = isOccupied;
+
         removePiece();
         this.piece = piece;
         this.piece.changeLocation(locationX, locationY);
@@ -37,6 +39,8 @@ public class Tile extends JPanel {
         this.add(piece);
         this.validate();
         this.repaint();
+
+        return hasCaptured;
     }
 
     public Piece getPiece() {

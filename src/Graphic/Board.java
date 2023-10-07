@@ -65,6 +65,7 @@ public class Board {
         BOARD_PANEL.setBounds(0, 0, PANEL_WIDTH, PANEL_HEIGHT);
         LAYERED_PANE.add(BOARD_PANEL, JLayeredPane.DEFAULT_LAYER);
         TILE_MATRIX = new Tile[8][8];
+
         for(int i = 0; i < 8; i++) for(int y = 0; y < 8; y++) {
             BOARD_PANEL.add(TILE_MATRIX[i][y] = new Tile(i, y));
         }

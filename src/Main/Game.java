@@ -12,6 +12,10 @@ import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 
 /**
+ * A small implementation of the game Chess using Java's Swing Library. This class starts by creating an
+ * array list to store each piece, then produces the board by utilizing a JFrame, JPanels, and a JLayeredPane.
+ *
+ *
  * @author Gradi Tshielekeja Mbuyi
  * @version 1.0
  */
@@ -33,10 +37,16 @@ public class Game implements MouseListener, MouseMotionListener {
         selectedPiece = null;
         shouldWhiteMove = true;
         board.setVisible();
+
+        GameUtils.produceFEN(board.getTiles());
     }
 
     private void movePiece() {
         ArrayList<Tile> moves = selectedPiece.legalMoves(board);
+        String type;
+
+        boolean hasCaptured, color;
+        int locationX, locationY;
 
         if(!selectedPiece.checkIfValid(moves, destinationTile)) {
             sourceTile.addPiece(selectedPiece);
@@ -44,7 +54,7 @@ public class Game implements MouseListener, MouseMotionListener {
             return;
         }
 
-        destinationTile.addPiece(selectedPiece);
+        hasCaptured = destinationTile.addPiece(selectedPiece);
 
         if(sourceTile != destinationTile) {
             sourceTile.removePiece();
@@ -52,9 +62,14 @@ public class Game implements MouseListener, MouseMotionListener {
             shouldWhiteMove = !shouldWhiteMove;
         }
 
-        GameUtils.printBOARD(board.getTiles());
-        System.out.println("----------------");
-        //GameUtils.printOCCUPATION(board.getTiles());
+        type = selectedPiece.getType();
+        locationX = selectedPiece.getLocationX();
+        locationY = selectedPiece.getLocationY();
+        color = selectedPiece.getColor();
+
+        //GameUtils.printBOARD(board.getTiles());
+        GameUtils.produceFEN(board.getTiles());
+        //GameUtils.printMoves(type, locationX, locationY, color, hasCaptured);
     }
 
     @Override

@@ -1,0 +1,20 @@
+Fen Notation Outputs
+
+Fen Notation: rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR
+Fen Notation: rnbqkbnr/ppp1pppp/8/3p4/8/8/PPPPPPPP/RNBQKBNR
+Fen Notation: rnbqkbnr/ppp1pppp/8/3p4/3P4/8/PPP1PPPP/RNBQKBNR
+Fen Notation: rnbqkb1r/ppp1pppp/5n2/3p4/3P4/8/PPP1PPPP/RNBQKBNR
+Fen Notation: rnbqkb1r/ppp1pppp/5n2/3p4/3P4/2N5/PPP1PPPP/R1BQKBNR
+Fen Notation: rnbqkb1r/ppp2ppp/5n2/3pp3/3P4/2N5/PPP1PPPP/R1BQKBNR
+Fen Notation: rnbqkb1r/ppp2ppp/5n2/3pP3/8/2N5/PPP1PPPP/R1BQKBNR
+Fen Notation: rnb1kb1r/ppp2ppp/3q1n2/3pP3/8/2N5/PPP1PPPP/R1BQKBNR
+Fen Notation: rnb1kb1r/ppp2ppp/3P1n2/3p4/8/2N5/PPP1PPPP/R1BQKBNR
+Fen Notation: rnb1kb1r/pp3ppp/3p1n2/3p4/8/2N5/PPP1PPPP/R1BQKBNR
+Fen Notation: rnb1kb1r/pp3ppp/3p1n2/3N4/8/8/PPP1PPPP/R1BQKBNR
+Fen Notation: rnb1kb1r/pp3ppp/3p4/3n4/8/8/PPP1PPPP/R1BQKBNR
+Fen Notation: rnb1kb1r/pp3ppp/3p4/3n4/2P5/8/PP2PPPP/R1BQKBNR
+Fen Notation: rnb1kb1r/pp3ppp/3p4/8/2P5/4n3/PP2PPPP/R1BQKBNR
+Fen Notation: rnb1kb1r/pp3ppp/3p4/8/2P5/4P3/PP2P1PP/R1BQKBNR
+Fen Notation: rnb1kb1r/pp3ppp/8/3p4/2P5/4P3/PP2P1PP/R1BQKBNR
+Fen Notation: rnb1kb1r/pp3ppp/8/3Q4/2P5/4P3/PP2P1PP/R1B1KBNR
+Fen Notation: r1b1kb1r/pp1n1ppp/8/3Q4/2P5/4P3/PP2P1PP/R1B1KBNR

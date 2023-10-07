@@ -1,0 +1,89 @@
+R N B Q K B N R
+P P P P P P P P
+- - - - - - - -
+- - - - - - - -
+- - - - p - - -
+- - - - - - - -
+p p p p - p p p
+r n b q k b n r
+
+R N B Q K B N R
+P P P P - P P P
+- - - - - - - -
+- - - - P - - -
+- - - - p - - -
+- - - - - - - -
+p p p p - p p p
+r n b q k b n r
+
+R N B Q K B N R
+P P P P - P P P
+- - - - - - - -
+- - - - P - - -
+- - - p p - - -
+- - - - - - - -
+p p p - - p p p
+r n b q k b n r
+
+R N B Q K B N R
+P P P - - P P P
+- - - P - - - -
+- - - - P - - -
+- - - p p - - -
+- - - - - - - -
+p p p - - p p p
+r n b q k b n r
+
+R N B Q K B N R
+P P P - - P P P
+- - - P - - - -
+- - - - p - - -
+- - - - p - - -
+- - - - - - - -
+p p p - - p p p
+r n b q k b n r
+
+R N B Q K B N R
+P P P - - P P P
+- - - - - - - -
+- - - - P - - -
+- - - - p - - -
+- - - - - - - -
+p p p - - p p p
+r n b q k b n r
+
+R N B Q K B N R
+P P P - - P P P
+- - - - - - - -
+- - - - P - - -
+- - - - p - - -
+- - - - - n - -
+p p p - - p p p
+r n b q k b - r
+
+R - B Q K B N R
+P P P - - P P P
+- - N - - - - -
+- - - - P - - -
+- - - - p - - -
+- - - - - n - -
+p p p - - p p p
+r n b q k b - r
+
+R - B Q K B N R
+P P P - - P P P
+- - N - - - - -
+- - - - n - - -
+- - - - p - - -
+- - - - - - - -
+p p p - - p p p
+r n b q k b - r
+
+R - B Q K B N R
+P P P - - P P P
+- - - - - - - -
+- - - - N - - -
+- - - - p - - -
+- - - - - - - -
+p p p - - p p p
+r n b q k b - r

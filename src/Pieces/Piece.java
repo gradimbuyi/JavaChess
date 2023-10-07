@@ -56,4 +56,12 @@ public abstract class Piece extends JLabel {
     public void hasMoved() {
         numMoves++;
     }
+
+    public Integer getLocationX() {
+        return locationX;
+    }
+
+    public Integer getLocationY() {
+        return locationY;
+    }
 }
