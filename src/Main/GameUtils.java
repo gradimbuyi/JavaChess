@@ -7,9 +7,15 @@ import Pieces.*;
 import java.awt.Color;
 
 public class GameUtils {
+    private static Integer NUM_MOVES = 0;
     public static final Color LIGHT = Color.decode("#f0f0f0");
     public static final Color DARK = Color.decode("#5b80ba");
-    private static Integer NUM_MOVES = 0;
+    public static final Integer[] PAWN_MOVES = {-16, -9, -8, -7, 7, 8, 9, 16};
+    public static final Integer[] KNIGHT_MOVES = {0};
+    public static final Integer[] BISHOP_MOVES = {0};
+    public static final Integer[] ROOK_MOVES = {0};
+    public static final Integer[] QUEEN_MOVES = {0};
+    public static final Integer[] KING_MOVES = {0};
     private static final String[][] TILE_NAMES = {
             {"a8", "b8", "c8", "d8", "e8", "f8", "g8", "h8"},
             {"a7", "b7", "c7", "d7", "e7", "f7", "g7", "h7"},
@@ -69,7 +75,6 @@ public class GameUtils {
         else if(color) System.out.print(type.toUpperCase().charAt(0) + TILE_NAMES[locationX][locationY] + "\t\t");
         else if(hasCaptured) System.out.print(type.charAt(0) + "x" + TILE_NAMES[locationX][locationY] + "\t\t");
         else System.out.print(type.charAt(0) + TILE_NAMES[locationX][locationY] + "\t\t");
-
         if(!color) System.out.println(" ");
     }
 
