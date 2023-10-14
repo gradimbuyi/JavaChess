@@ -10,7 +10,8 @@ import Pieces.Piece;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JLayeredPane;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.GridLayout;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
@@ -63,10 +64,11 @@ public class Board {
         BOARD_PANEL.setBounds(0, 0, PANEL_WIDTH, PANEL_HEIGHT);
         LAYERED_PANE.add(BOARD_PANEL, JLayeredPane.DEFAULT_LAYER);
 
+        /* Generates each chess tile, saving them in a 2d array named TILE_MATRIX */
         for(int locationX = 0; locationX < 8; locationX++) {
             for(int locationY = 0; locationY < 8; locationY++) {
                 TILE_MATRIX[locationX][locationY] = new Tile(locationX, locationY);
-                TILE_MATRIX[locationX][locationY].setBackground(locationX % 2 == locationY % 2 ? LIGHT : DARK);
+                TILE_MATRIX[locationX][locationY].setColor(locationX % 2 == locationY % 2 ? LIGHT : DARK);
                 BOARD_PANEL.add(TILE_MATRIX[locationX][locationY]);
             }
         }
@@ -85,9 +87,8 @@ public class Board {
      * @param color the color of the piece to be generated.
      * @param locationX the x-axis location of the piece to be generated.
      * @param locationY the y-axis location of the piece to be generated.
-     * @return Returns the generated piece.
      */
-    private Piece generatePiece(char name, boolean color, int locationX, int locationY) {
+    public static Piece generatePiece(char name, boolean color, int locationX, int locationY) {
         Piece piece = null;
         name = Character.toLowerCase(name);
 
@@ -105,20 +106,42 @@ public class Board {
         return piece;
     }
 
+    /**
+     * This method parses a FEN string and populates the 2D array representing each of the chess tiles
+     * with the appropriate chess piece objects according to the given string. This is accomplished by
+     * iterating through the FEN string, reading each character and making the appropriate changes to
+     * the chess board.
+     *
+     * Conditions:
+     * If the current character is an upper case alphabetic letter, we produce a white piece.
+     * Else if the current character is a lower case alphabetic letter, we produce a black piece.
+     * Else if the current character is a number, we skip x number of tiles (leaving them empty),
+     * where n is the current character.
+     * Else if the current character is a slash, we jump to the next row.
+     *
+     * Disclaimer:
+     * This method is public, however, it should only be called during the beginning of the game,
+     * or if the user change the state of the game.
+     *
+     * @param fenNotation given string to be parsed - the FEN string
+     */
     public static void generatePieces(String fenNotation) {
         int x = 0; int y = 0; char buffer;
 
+        /* Iterates through the 2d array of tiles, and removes pieces. This is done to restart the state
+         * of the game */
         for(int locationX = 0; locationX < 8; locationX++) {
             for(int locationY = 0; locationY < 8; locationY++) {
                 TILE_MATRIX[locationX][locationY].removePiece();
             }
         }
 
+        /* Iterates through the FEN string */
         for(int i = 0; i < fenNotation.length(); i++) {
             buffer = fenNotation.charAt(i);
 
             if(Character.isAlphabetic(buffer)) {
-                if(buffer == 'p') TILE_MATRIX[x][y].addPiece(new Pawn("pawn", false, x, y));
+                     if(buffer == 'p') TILE_MATRIX[x][y].addPiece(new Pawn("pawn", false, x, y));
                 else if(buffer == 'n') TILE_MATRIX[x][y].addPiece(new Knight("knight", false, x, y));
                 else if(buffer == 'b') TILE_MATRIX[x][y].addPiece(new Bishop("bishop", false, x, y));
                 else if(buffer == 'r') TILE_MATRIX[x][y].addPiece(new Rook("rook", false, x, y));
@@ -130,8 +153,9 @@ public class Board {
                 else if(buffer == 'R') TILE_MATRIX[x][y].addPiece(new Rook("rook", true, x, y));
                 else if(buffer == 'Q') TILE_MATRIX[x][y].addPiece(new Queen("queen", true, x, y));
                 else if(buffer == 'K') TILE_MATRIX[x][y].addPiece(new King("king", true, x, y));  y++;
-            }   else if(Character.isDigit(buffer)) y += Character.getNumericValue(buffer);
+            }
 
+            else if(Character.isDigit(buffer)) y += Character.getNumericValue(buffer);
             else if(buffer == '/') { x++; y = 0; }
             else i = fenNotation.length();
         }
