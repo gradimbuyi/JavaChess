@@ -15,10 +15,35 @@ public class Bishop extends Piece {
     }
 
     @Override
-    public ArrayList<Tile> legalMoves(Board board) {
-        Tile[][] squares = board.getTiles();
-        ArrayList<Tile> moves = new ArrayList<>();
+    public ArrayList<Tile> legalMoves() {
+        moves = new ArrayList<>();
 
-        return new ArrayList<>();
+        int temp = 1;
+
+        while(locationX - temp >= 0 && locationY + temp <= 7) {
+            boolean shouldContinue = addMove(locationX - temp, locationY + temp);
+            if(!shouldContinue) { temp = 1; break; }
+            temp++;
+        }
+
+        while(locationX - temp >= 0 && locationY - temp >= 0) {
+            boolean shouldContinue = addMove(locationX - temp, locationY - temp);
+            if(!shouldContinue) { temp = 1; break; }
+            temp++;
+        }
+
+        while(locationX + temp <= 7 && locationY + temp <= 7) {
+            boolean shouldContinue = addMove(locationX + temp, locationY + temp);
+            if(!shouldContinue) { temp = 1; break; }
+            temp++;
+        }
+
+        while(locationX + temp <= 7 && locationY - temp >= 0) {
+            boolean shouldContinue = addMove(locationX + temp, locationY - temp);
+            if(!shouldContinue) { temp = 1; break; }
+            temp++;
+        }
+
+        return moves;
     }
 }

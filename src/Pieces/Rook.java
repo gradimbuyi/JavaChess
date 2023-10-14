@@ -1,8 +1,6 @@
 package Pieces;
 
-import Graphic.Board;
 import Graphic.Tile;
-
 import java.util.ArrayList;
 
 /**
@@ -17,33 +15,31 @@ public class Rook extends Piece {
     }
 
     @Override
-    public ArrayList<Tile> legalMoves(Board board) {
-        Tile[][] squares = board.getTiles();
-        ArrayList<Tile> moves = new ArrayList<>();
+    public ArrayList<Tile> legalMoves() {
+        moves = new ArrayList<>();
 
         int temp = 1;
-
         while(locationX + temp <= 7) {
-            if(squares[locationX + temp][locationY].isOccupied && squares[locationX + temp][locationY].getPiece().color == color) break;
-            moves.add(squares[locationX + temp][locationY]);
+            boolean shouldContinue = addMove(locationX + temp, locationY);
+            if(!shouldContinue) { temp = 1; break; }
             temp++;
-        }   temp = 1;
+        }
 
         while(locationX - temp >= 0) {
-            if(squares[locationX - temp][locationY].isOccupied && squares[locationX - temp][locationY].getPiece().color == color) break;
-            moves.add(squares[locationX - temp][locationY]);
+            boolean shouldContinue = addMove(locationX - temp, locationY);
+            if(!shouldContinue) { temp = 1; break; }
             temp++;
-        }   temp = 1;
+        }
 
         while(locationY + temp <= 7) {
-            if(squares[locationX][locationY + temp].isOccupied && squares[locationX][locationY + temp].getPiece().color == color) break;
-            moves.add(squares[locationX][locationY + temp]);
+            boolean shouldContinue = addMove(locationX, locationY + temp);
+            if(!shouldContinue) { temp = 1; break; }
             temp++;
-        }   temp = 1;
+        }
 
         while(locationY - temp >= 0) {
-            if(squares[locationX][locationY - temp].isOccupied && squares[locationX][locationY - temp].getPiece().color == color) break;
-            moves.add(squares[locationX][locationY - temp]);
+            boolean shouldContinue = addMove(locationX, locationY - temp);
+            if(!shouldContinue) break;
             temp++;
         }
 

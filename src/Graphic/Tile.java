@@ -2,14 +2,10 @@ package Graphic;
 
 import Pieces.Piece;
 import javax.swing.JPanel;
-import java.awt.Color;
-import static Main.GameUtils.DARK;
-import static Main.GameUtils.LIGHT;
 
 public class Tile extends JPanel {
     private final Integer locationX;
     private final Integer locationY;
-    private final Color color;
     private Piece piece;
     public Boolean isOccupied;
 
@@ -18,7 +14,6 @@ public class Tile extends JPanel {
         this.locationY = locationY;
         this.piece = null;
         this.isOccupied = false;
-        setBackground(color = locationX % 2 == locationY % 2 ? LIGHT : DARK);
     }
 
     public void removePiece() {

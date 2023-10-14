@@ -9,7 +9,6 @@ import java.awt.Cursor;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.util.ArrayList;
 
 /**
  * A small implementation of the game Chess using Java's Swing Library. This class starts by creating an
@@ -21,55 +20,19 @@ import java.util.ArrayList;
  */
 public class Game implements MouseListener, MouseMotionListener {
     private static Board board;
-    private static ArrayList<Piece> pieces;
     private static Piece selectedPiece;
     private static Tile sourceTile;
     private static Tile destinationTile;
     private static Integer locationX;
     private static Integer locationY;
-    private static Boolean shouldWhiteMove;
+    public static Boolean shouldWhiteMove;
 
-    public Game() throws InterruptedException {
-        pieces = new ArrayList<>();
-        board = new Board( this, this, pieces);
+    public Game() {
+        board = new Board( this, this);
         sourceTile = null;
         destinationTile = null;
         selectedPiece = null;
         shouldWhiteMove = true;
-        board.setVisible();
-
-        GameUtils.TestFenNotation(board.getTiles());
-    }
-
-    private void movePiece() {
-        ArrayList<Tile> moves = selectedPiece.legalMoves(board);
-        String type;
-
-        boolean hasCaptured, color;
-        int locationX, locationY;
-
-        if(!selectedPiece.checkIfValid(moves, destinationTile)) {
-            sourceTile.addPiece(selectedPiece);
-            selectedPiece = null;
-            return;
-        }
-
-        hasCaptured = destinationTile.addPiece(selectedPiece);
-
-        if(sourceTile != destinationTile) {
-            sourceTile.removePiece();
-            selectedPiece.hasMoved();
-            shouldWhiteMove = !shouldWhiteMove;
-        }
-
-        type = selectedPiece.getType();
-        locationX = selectedPiece.getLocationX();
-        locationY = selectedPiece.getLocationY();
-        color = selectedPiece.getColor();
-
-        //GameUtils.printBOARD(board.getTiles());
-        //GameUtils.produceFEN(board.getTiles());
-        GameUtils.printMoves(type, locationX, locationY, color, hasCaptured);
     }
 
     @Override
@@ -113,7 +76,7 @@ public class Game implements MouseListener, MouseMotionListener {
 
             if(component instanceof Piece) destinationTile = (Tile) component.getParent();
             else destinationTile = (Tile) component;
-            movePiece();
+            selectedPiece.movePiece(sourceTile, destinationTile);
         }
 
         selectedPiece = null;

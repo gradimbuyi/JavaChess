@@ -1,6 +1,5 @@
 package Graphic;
 
-import Main.GameUtils;
 import Pieces.Bishop;
 import Pieces.King;
 import Pieces.Knight;
@@ -11,10 +10,9 @@ import Pieces.Piece;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JLayeredPane;
-import java.awt.GridLayout;
+import java.awt.*;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.util.ArrayList;
 
 /**
  * The class Board is in charge of presenting the 64 tiles that make up a chess board, as well as
@@ -31,8 +29,11 @@ public class Board {
     private static final Integer FRAME_HEIGHT = 948;
     private static final Integer PANEL_WIDTH = 920;
     private static final Integer PANEL_HEIGHT = 920;
+    private static final Color LIGHT = Color.decode("#f0f0f0");
+    private static final Color DARK = Color.decode("#5b80ba");
     private static final GridLayout GRID_LAYOUT = new GridLayout(8, 8);
     private static final Tile[][] TILE_MATRIX = new Tile[8][8];
+    private static final String STARTING_POSITION = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
 
     /**
      * The constructor for the Board class produces a JFrame with a width of 920 pixels and a height of
@@ -41,13 +42,10 @@ public class Board {
      * track of which pieces are present on the board, whereas both listener allows the user to interact
      * with those pieces.
      *
-     * The chess board is a 2D array made up of 64 tiles, where each tile has different color than its adjacent tile.
-     *
      * @param mouseListener added to layered pane to allow user to click and drop pieces
      * @param mouseMotionListener added to layered pane to allow user to press and drag pieces
-     * @param pieces array list of pieces
      */
-    public Board(MouseListener mouseListener, MouseMotionListener mouseMotionListener, ArrayList<Piece> pieces) {
+    public Board(MouseListener mouseListener, MouseMotionListener mouseMotionListener) {
         BOARD_FRAME = new JFrame();
         LAYERED_PANE = new JLayeredPane();
         LAYERED_PANE.setSize(PANEL_WIDTH, PANEL_HEIGHT);
@@ -68,13 +66,14 @@ public class Board {
         for(int locationX = 0; locationX < 8; locationX++) {
             for(int locationY = 0; locationY < 8; locationY++) {
                 TILE_MATRIX[locationX][locationY] = new Tile(locationX, locationY);
+                TILE_MATRIX[locationX][locationY].setBackground(locationX % 2 == locationY % 2 ? LIGHT : DARK);
                 BOARD_PANEL.add(TILE_MATRIX[locationX][locationY]);
             }
         }
 
-        //addPieces(pieces);
+        generatePieces(STARTING_POSITION);
+        BOARD_FRAME.setVisible(true);
     }
-
 
     /**
      * This method creates a new instance of the piece class and allocates space for the appropriate piece
@@ -106,37 +105,41 @@ public class Board {
         return piece;
     }
 
-    /**
-     * This method is called within the constructor of the Board class. It generates all the chess pieces
-     * in their initially position and save each pieces in an array list.
-     *
-     * @param pieces an array list which keeps track of how many pieces are on the board
-     */
-    private void addPieces(ArrayList<Piece> pieces) {
-        for(int i = 0; i < 8; i++) {
-            pieces.add(generatePiece('p', true, 6, i));
-            pieces.add(generatePiece('p', false, 1, i));
+    public static void generatePieces(String fenNotation) {
+        int x = 0; int y = 0; char buffer;
+
+        for(int locationX = 0; locationX < 8; locationX++) {
+            for(int locationY = 0; locationY < 8; locationY++) {
+                TILE_MATRIX[locationX][locationY].removePiece();
+            }
         }
 
-        for(int i = 0; i < 2; i++) {
-            pieces.add(generatePiece('r', i != 0, i * 7, 0));
-            pieces.add(generatePiece('n', i != 0, i * 7, 1));
-            pieces.add(generatePiece('b', i != 0, i * 7, 2));
-            pieces.add(generatePiece('q', i != 0, i * 7, 3));
-            pieces.add(generatePiece('k', i != 0, i * 7, 4));
-            pieces.add(generatePiece('b', i != 0, i * 7, 5));
-            pieces.add(generatePiece('n', i != 0, i * 7, 6));
-            pieces.add(generatePiece('r', i != 0, i * 7, 7));
+        for(int i = 0; i < fenNotation.length(); i++) {
+            buffer = fenNotation.charAt(i);
+
+            if(Character.isAlphabetic(buffer)) {
+                if(buffer == 'p') TILE_MATRIX[x][y].addPiece(new Pawn("pawn", false, x, y));
+                else if(buffer == 'n') TILE_MATRIX[x][y].addPiece(new Knight("knight", false, x, y));
+                else if(buffer == 'b') TILE_MATRIX[x][y].addPiece(new Bishop("bishop", false, x, y));
+                else if(buffer == 'r') TILE_MATRIX[x][y].addPiece(new Rook("rook", false, x, y));
+                else if(buffer == 'q') TILE_MATRIX[x][y].addPiece(new Queen("queen", false, x, y));
+                else if(buffer == 'k') TILE_MATRIX[x][y].addPiece(new King("king", false, x, y));
+                else if(buffer == 'P') TILE_MATRIX[x][y].addPiece(new Pawn("pawn", true, x, y));
+                else if(buffer == 'N') TILE_MATRIX[x][y].addPiece(new Knight("knight", true, x, y));
+                else if(buffer == 'B') TILE_MATRIX[x][y].addPiece(new Bishop("bishop", true, x, y));
+                else if(buffer == 'R') TILE_MATRIX[x][y].addPiece(new Rook("rook", true, x, y));
+                else if(buffer == 'Q') TILE_MATRIX[x][y].addPiece(new Queen("queen", true, x, y));
+                else if(buffer == 'K') TILE_MATRIX[x][y].addPiece(new King("king", true, x, y));  y++;
+            }   else if(Character.isDigit(buffer)) y += Character.getNumericValue(buffer);
+
+            else if(buffer == '/') { x++; y = 0; }
+            else i = fenNotation.length();
         }
     }
 
     /** GETTERS AND SETTERS **/
-    public Tile[][] getTiles() {
+    public static Tile[][] getBoard() {
         return TILE_MATRIX;
-    }
-
-    public void setVisible() {
-        BOARD_FRAME.setVisible(true);
     }
 
     public JPanel getBoardPanel(){

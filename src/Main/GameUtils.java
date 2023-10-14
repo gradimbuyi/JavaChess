@@ -2,20 +2,10 @@ package Main;
 
 import Graphic.Board;
 import Graphic.Tile;
-import Pieces.*;
-
 import java.awt.Color;
 
 public class GameUtils {
     private static Integer NUM_MOVES = 0;
-    public static final Color LIGHT = Color.decode("#f0f0f0");
-    public static final Color DARK = Color.decode("#5b80ba");
-    public static final Integer[] PAWN_MOVES = {-16, -9, -8, -7, 7, 8, 9, 16};
-    public static final Integer[] KNIGHT_MOVES = {0};
-    public static final Integer[] BISHOP_MOVES = {0};
-    public static final Integer[] ROOK_MOVES = {0};
-    public static final Integer[] QUEEN_MOVES = {0};
-    public static final Integer[] KING_MOVES = {0};
     private static final String[][] TILE_NAMES = {
             {"a8", "b8", "c8", "d8", "e8", "f8", "g8", "h8"},
             {"a7", "b7", "c7", "d7", "e7", "f7", "g7", "h7"},
@@ -43,7 +33,7 @@ public class GameUtils {
                 else if(type.equals("king")) System.out.print("K ");
                 else if(color) System.out.print(type.charAt(0) + " ");
                 else System.out.print(type.toUpperCase().charAt(0) + " ");
-            }   else System.out.print("- ");    }   System.out.println(" ");
+            }   else System.out.print("- ");    } System.out.println(" ");
         }
 
         System.out.println(" ");
@@ -115,45 +105,6 @@ public class GameUtils {
         System.out.println(fenNotation);
     }
 
-    /**
-     * Reads in fen String and produce pieces on the board.
-     * @param fenNoation given fen string
-     * @param board board tiles
-     */
-    public static void readFen(String fenNoation, Tile[][] board) {
-        int x = 0; int y = 0;
-        char buffer;
-
-        for(int i = 0; i < fenNoation.length(); i++) {
-            buffer = fenNoation.charAt(i);
-
-            if(Character.isAlphabetic(buffer)) {
-                     if(buffer == 'p') board[x][y].addPiece(new Pawn("pawn", false, x, y));
-                else if(buffer == 'n') board[x][y].addPiece(new Knight("knight", false, x, y));
-                else if(buffer == 'b') board[x][y].addPiece(new Bishop("bishop", false, x, y));
-                else if(buffer == 'r') board[x][y].addPiece(new Rook("rook", false, x, y));
-                else if(buffer == 'q') board[x][y].addPiece(new Queen("queen", false, x, y));
-                else if(buffer == 'k') board[x][y].addPiece(new King("king", false, x, y));
-                else if(buffer == 'P') board[x][y].addPiece(new Pawn("pawn", true, x, y));
-                else if(buffer == 'N') board[x][y].addPiece(new Knight("knight", true, x, y));
-                else if(buffer == 'B') board[x][y].addPiece(new Bishop("bishop", true, x, y));
-                else if(buffer == 'R') board[x][y].addPiece(new Rook("rook", true, x, y));
-                else if(buffer == 'Q') board[x][y].addPiece(new Queen("queen", true, x, y));
-                else if(buffer == 'K') board[x][y].addPiece(new King("king", true, x, y));  y++;
-            }   else if(Character.isDigit(buffer)) y += Character.getNumericValue(buffer);
-                else if(buffer == '/') { x++; y = 0; }
-                else i = fenNoation.length();
-        }
-    }
-
-    public static void clearBoard(Tile[][] board) {
-        for(int locationX = 0; locationX < 8; locationX++) {
-            for(int locationY = 0; locationY < 8; locationY++) {
-                board[locationX][locationY].removePiece();
-            }
-        }
-    }
-
     public static void TestFenNotation(Tile[][] board) throws InterruptedException {
         String [] fenNotations = {
                 "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR",
@@ -166,9 +117,10 @@ public class GameUtils {
                 "1r6/5p2/p7/3k1b2/7B/5r2/2nK4/8 b - - 7 34",
         };
 
-        for(int i = 0; i < 8; i++) {
-            readFen(fenNotations[i], board); produceFEN(board);
-            Thread.sleep(1500); clearBoard(board); Thread.sleep(1500);
+        for(int fen_num = 0; fen_num < 8; fen_num++) {
+            Board.generatePieces(fenNotations[fen_num]);
+            produceFEN(board);
+            Thread.sleep(1500);
         }
 
     }
