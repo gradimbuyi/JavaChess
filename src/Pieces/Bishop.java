@@ -18,6 +18,7 @@ public class Bishop extends Piece {
     public ArrayList<Tile> legalMoves() {
         moves = new ArrayList<>();
 
+        /*
         int temp = 1;
 
         while(locationX - temp >= 0 && locationY + temp <= 7) {
@@ -44,6 +45,8 @@ public class Bishop extends Piece {
             temp++;
         }
 
+
+         */
         return moves;
     }
 }

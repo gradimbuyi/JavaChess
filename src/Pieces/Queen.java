@@ -15,6 +15,7 @@ public class Queen extends Piece {
     @Override
     public ArrayList<Tile> legalMoves() {
         moves = new ArrayList<>();
+        /*
 
         /////////////////////////////// ROOK MOVES ///////////////////////////////
         int temp = 1;
@@ -68,6 +69,8 @@ public class Queen extends Piece {
             temp++;
         }
 
+
+         */
         return moves;
     }
 }

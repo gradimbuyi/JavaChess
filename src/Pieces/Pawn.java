@@ -1,5 +1,6 @@
 package Pieces;
 
+import Graphic.Board;
 import Graphic.Tile;
 import java.util.ArrayList;
 
@@ -8,30 +9,71 @@ import java.util.ArrayList;
  * @version 1.0
  */
 public class Pawn extends Piece {
-    protected Boolean isFirstMove;
+    private Integer[] potentialX;
+    private Integer[] potentialY;
 
     public Pawn(String type, boolean color, int locationX, int locationY) {
         super(type, color, locationX, locationY);
-        this.isFirstMove = true;
     }
-
-
 
     @Override
     public ArrayList<Tile> legalMoves() {
+        Tile[][] board = Board.getBoard();
+
+        Piece destinationPiece;
+
         moves = new ArrayList<>();
-        isFirstMove = numMoves == 0;
 
         if(color) {
-            boolean checkSecond = addMove(locationX - 1, locationY);
-            if(checkSecond && isFirstMove) addMove(locationX - 2, locationY);
+            if(locationX - 1 < 0) return moves;
+            destinationPiece = board[locationX - 1][locationY].getPiece();
+            if(destinationPiece == null) {
+                moves.add(board[locationX - 1][locationY]);
+            }
+
+            if(locationY - 1 >= 0) {
+                destinationPiece = board[locationX - 1][locationY - 1].getPiece();
+                if(destinationPiece != null && !destinationPiece.color) {
+                    moves.add(board[locationX - 1][locationY - 1]);
+                }
+            }
+            if(locationY + 1 <= 7) {
+                destinationPiece = board[locationX - 1][locationY + 1].getPiece();
+                if(destinationPiece != null && !destinationPiece.color) {
+                    moves.add(board[locationX - 1][locationY + 1]);
+                }
+            }
+            if(numMoves == 0 && locationX - 2 < 0) return moves;
+            destinationPiece = board[locationX - 2][locationY].getPiece();
+            if(destinationPiece == null) {
+                moves.add(board[locationX - 2][locationY]);
+            }
 
         } else {
-            boolean checkSecond = addMove(locationX + 1, locationY);
-            if(checkSecond && isFirstMove) addMove(locationX + 2, locationY);
-        }
+            if(locationX + 1 > 7) return moves;
+            destinationPiece = board[locationX + 1][locationY].getPiece();
+            if(destinationPiece == null) {
+                moves.add(board[locationX + 1][locationY]);
+            }
 
-        addMove(locationX, locationY);
+            if(locationY - 1 >= 0) {
+                destinationPiece = board[locationX + 1][locationY - 1].getPiece();
+                if(destinationPiece != null && destinationPiece.color) {
+                    moves.add(board[locationX + 1][locationY - 1]);
+                }
+            }
+            if(locationY + 1 <= 7) {
+                destinationPiece = board[locationX + 1][locationY + 1].getPiece();
+                if(destinationPiece != null && destinationPiece.color) {
+                    moves.add(board[locationX + 1][locationY + 1]);
+                }
+            }
+            if(numMoves == 0 && locationX + 2 > 7) return moves;
+            destinationPiece = board[locationX + 2][locationY].getPiece();
+            if(destinationPiece == null) {
+                moves.add(board[locationX + 2][locationY]);
+            }
+        }
         return moves;
     }
 }

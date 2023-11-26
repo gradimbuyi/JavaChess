@@ -18,6 +18,7 @@ public class King extends Piece {
     public ArrayList<Tile> legalMoves() {
         moves = new ArrayList<>();
 
+        /*
         addMove(locationX + 1, locationY);
         addMove(locationX, locationY + 1);
         addMove(locationX + 1, locationY + 1);
@@ -27,6 +28,8 @@ public class King extends Piece {
         addMove(locationX - 1, locationY + 1);
         addMove(locationX - 1, locationY - 1);
 
+
+         */
         return moves;
     }
 }

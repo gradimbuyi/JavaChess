@@ -3,8 +3,6 @@ package Pieces;
 import Graphic.Board;
 import Graphic.Tile;
 import Main.Game;
-
-import javax.management.QueryExp;
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import java.awt.Image;
@@ -88,46 +86,6 @@ public abstract class Piece extends JLabel {
         }
 
         return hasCaptured;
-    }
-
-    public Boolean addMove(int locationX, int locationY) {
-        Tile[][] board = Board.getBoard();
-
-        if(this instanceof Pawn && locationX == this.locationX && locationY == this.locationY) {
-            int new_x = this.color ? locationX - 1 : locationX + 1;
-
-            if(new_x >= 0 && new_x <= 7) {
-                if(locationY - 1 >= 0 && board[new_x][locationY - 1].checkPieceColor() == color) {
-                    moves.add(board[new_x][locationY - 1]);
-                }
-
-                if(locationY + 1 <= 7 && board[new_x][locationY + 1].checkPieceColor() == color) {
-                    moves.add(board[new_x][locationY + 1]);
-                }
-            }
-        }
-
-        else if(this instanceof Rook || this instanceof Queen || this instanceof Bishop) {
-            if(board[locationX][locationY].isOccupied) {
-                if(board[locationX][locationY].getPiece().getColor() == color) return false;
-                else {
-                    moves.add(board[locationX][locationY]);
-                    return false;
-                }
-            }
-
-            moves.add(board[locationX][locationY]);
-            return true;
-        }
-
-        else if(locationX >= 0 && locationX <= 7 && locationY >= 0 && locationY <= 7) {
-            if(board[locationX][locationY].checkPieceColor() == color || board[locationX][locationY].checkPieceColor() == null) {
-                moves.add(board[locationX][locationY]);
-                return true;
-            }
-        }
-
-        return false;
     }
 
     public void changeLocation(int locationX, int locationY) {
