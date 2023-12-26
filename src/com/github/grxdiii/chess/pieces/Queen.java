@@ -9,10 +9,12 @@ import java.util.ArrayList;
  * @version 1.0
  */
 public class Queen extends Piece {
+    // SEE DEFINITION @ Piece.java
     public Queen(String type, boolean color, int locationX, int locationY) {
         super(type, color, locationX, locationY);
     }
 
+    // SEE DEFINITION @ Piece.java
     @Override
     public ArrayList<Tile> legalMoves() {
         moves = new ArrayList<>();

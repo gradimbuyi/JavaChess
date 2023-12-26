@@ -8,6 +8,8 @@ import java.util.ArrayList;
  * @version 1.0
  */
 public class King extends Piece {
+
+    // SEE DEFINITION @ Piece.java
     public King(String type, boolean color, int locationX, int locationY) {
         super(type, color, locationX, locationY);
     }
@@ -18,21 +20,22 @@ public class King extends Piece {
      * valid, both pieces have to be able to "see" each other, meaning that there isn't a piece
      * between them.
      *
-     * @param direction tells which direction king is going to be castled, where direction being
-     *                  false means that the king will be castled left and vice versa.
+     * @param destination_locationY the locationY of the destination tile
      * @return Returns true if castling operation was done successfully, otherwise returns false.
      */
-    protected Boolean performCastling(boolean direction) {
-        // determines the location of rook to be castled
+    protected Boolean performCastling(int destination_locationY) {
+        boolean direction = destination_locationY >= 6;
+
+        // Determines the location of rook to be castled
         int locationX = color     ? 7 : 0;
         int locationY = direction ? 7 : 0;
 
-        // checks to see if the rook is in its home squares and performs the operations
+        // Checks to see if the rook is in its home squares and performs the operations
         // based on the check
         if(board[locationX][locationY].getPiece() != null) {
             Piece rook = board[locationX][locationY].getPiece();
 
-            // checks to see if the rook has moved and if it's able to "see" the king
+            // Checks to see if the rook has moved and if it's able to "see" the king
             if(rook instanceof Rook && rook.numMoves == 0 && rook.getColor() == color) {
                 int start = direction ? 5 : 1;
                 int end   = direction ? 6 : 3;
@@ -43,7 +46,7 @@ public class King extends Piece {
                     }
                 }
 
-                // all the conditions are met, performs castling
+                // All the conditions are met, performs castling
                 board[locationX][4].removePiece();
                 board[locationX][locationY].removePiece();
 
@@ -55,33 +58,12 @@ public class King extends Piece {
                     board[locationX][3].addPiece(rook);
                 }
 
-                // tells Piece.MovePiece that King has been castled
+                // Tells Piece.MovePiece that King has been castled
                 return true;
             }
         }
 
-        // failed to castle king / conditions have not been met
-        return false;
-    }
-
-    /**
-     * This method checks to see if a tile, given a locationX and locationY is occupied. In
-     * the case where it is, the method returns true if the tile is occupied by an enemy piece.
-     * The method also returns true if the tile is unoccupied.
-     *
-     * @param locationX the x location of a potential tile
-     * @param locationY the y location of a potential tile
-     * @return Returns true if the tiles is unoccupied or is occupied by enemy piece, otherwise
-     *         returns false
-     */
-    private Boolean checkKingMove(int locationX, int locationY) {
-        // returns true if all conditions are met
-        if(locationX >= 0 && locationX <= 7 && locationY >= 0 && locationY <= 7) {
-            Piece piece = board[locationX][locationY].getPiece();
-            return piece == null || piece.getColor() != color;
-        }
-
-        // otherwise returns false
+        // Failed to castle king / conditions have not been met
         return false;
     }
 
@@ -94,31 +76,32 @@ public class King extends Piece {
      */
     @Override
     public ArrayList<Tile> legalMoves() {
-        // potential locationX and locationY for the legal tiles
-        Integer[] candidates = {locationX - 1, locationX + 1, locationY - 1, locationY + 1};
+        // Potential locationX and locationY for the legal tiles
+        Integer[] candidates = {locationX - 1, locationX + 1, locationY - 1, locationY + 1, locationY};
         moves = new ArrayList<>();
 
-        // for loop to evaluate four move types
+        // For loop to evaluate four move types
         for(int move_type = 0; move_type < 4; move_type++) {
 
-            // this evaluates the first 6 potential moves
-            if(move_type < 2 && checkKingMove(candidates[move_type], locationY)) {
-                moves.add(board[candidates[move_type]][locationY]);
-                if(checkKingMove(candidates[move_type], candidates[2])) {
-                    moves.add(board[candidates[move_type]][candidates[2]]);
-                }
-                if(checkKingMove(candidates[move_type], candidates[3])) {
-                    moves.add(board[candidates[move_type]][candidates[3]]);
+            // Evaluates and calculates first 6 moves.
+            // According to classical Chess rules, the King can move one square at a time from
+            // its current tiles to any of its neighbouring tiles, provided that its destination is
+            // not occupied by a friendly piece. This part of the code tests to see if the forward,
+            // backward, and diagonal moves are valid.
+            if(move_type < 2) {
+                for(int potential_y = 2; potential_y < 5; potential_y++) {
+                    boolean addMove = isTileAvailable(candidates[move_type], candidates[potential_y]);
+                    if(addMove) moves.add(board[candidates[move_type]][candidates[potential_y]]);
                 }
             }
 
-            // this evaluates the remaining 2 potential moves
-            else if(checkKingMove(locationX, candidates[move_type])) {
-                moves.add(board[locationX][move_type]);
+            // Evaluates and calculates the last 2 moves.
+            // This part of the code tests to see if the sideways moves are valid.
+            else if(isTileAvailable(locationX, candidates[move_type])) {
+                moves.add(board[locationX][candidates[move_type]]);
             }
         }
 
-        // returns the legal moves
         return moves;
     }
 

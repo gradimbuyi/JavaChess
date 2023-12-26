@@ -11,46 +11,30 @@ import java.util.ArrayList;
 public class Rook extends Piece {
     private Boolean canCastle;
 
+    // SEE DEFINITION @ Piece.java
     public Rook(String type, boolean color, int locationX, int locationY) {
         super(type, color, locationX, locationY);
     }
 
+    // SEE DEFINITION @ Piece.java
     @Override
     public ArrayList<Tile> legalMoves() {
-        moves = new ArrayList<>(); int move = 1;
+        moves = new ArrayList<>();
 
-        // VERTICAL MOVES //
-        while(locationX + move <= 7) {
-            if(board[locationX + move][locationY].getPiece() == null ||
-               board[locationX + move][locationY].getPiece().getColor() != color) {
-               moves.add(board[locationX + move][locationY]);
-               move++;
-            }  else break;
-        }      move = 1;
+        // Iterates through the four potential direction in which the rook can move.
+        // According to classical Chess rules, the Rook can move freely forward, backward, and sideways
+        // if there are no friendly pieces blocking it. The direction in which it moves is also the
+        // direction in which it captures enemy pieces.
+        for(int move_type = 0; move_type < 4; move_type++) {
+            int potential_x = move_type < 2 ? (locationX + (move_type % 2 == 0 ? -1 : 1)) : locationX;
+            int potential_y = move_type > 1 ? (locationY + (move_type % 2 == 0 ? -1 : 1)) : locationY;
 
-        while(locationX - move >= 0) {
-            if(board[locationX - move][locationY].getPiece() == null ||
-               board[locationX - move][locationY].getPiece().getColor() != color) {
-               moves.add(board[locationX - move][locationY]);
-               move++;
-            }  else break;
-        }      move = 1;
-
-        // HORIZONTAL MOVES //
-        while(locationY + move <= 7) {
-            if(board[locationX][locationY + move].getPiece() == null ||
-               board[locationX][locationY + move].getPiece().getColor() != color) {
-               moves.add(board[locationX][locationY + move]);
-               move++;
-            }  else break;
-        }      move = 1;
-
-        while(locationY - move >= 0) {
-            if(board[locationX][locationY - move].getPiece() == null ||
-               board[locationX][locationY - move].getPiece().getColor() != color) {
-               moves.add(board[locationX][locationY - move]);
-               move++;
-            }  else break;
+            while(isTileAvailable(potential_x, potential_y)) {
+                moves.add(board[potential_x][potential_y]);
+                if(board[potential_x][potential_y].isOccupied) break;
+                potential_x = move_type < 2 ? (potential_x + (move_type % 2 == 0 ? -1 : 1)) : potential_x;
+                potential_y = move_type > 1 ? (potential_y + (move_type % 2 == 0 ? -1 : 1)) : potential_y;
+            }
         }
 
         return moves;

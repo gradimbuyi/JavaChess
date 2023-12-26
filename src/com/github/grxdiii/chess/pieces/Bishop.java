@@ -1,8 +1,6 @@
 package com.github.grxdiii.chess.pieces;
 
-import com.github.grxdiii.chess.graphic.Board;
 import com.github.grxdiii.chess.graphic.Tile;
-
 import java.util.ArrayList;
 
 /**
@@ -10,10 +8,12 @@ import java.util.ArrayList;
  * @version 1.0
  */
 public class Bishop extends Piece {
+    // SEE DEFINITION @ Piece.java
     public Bishop(String type, boolean color, int locationX, int locationY) {
         super(type, color, locationX, locationY);
     }
 
+    // SEE DEFINITION @ Piece.java
     @Override
     public ArrayList<Tile> legalMoves() {
         moves = new ArrayList<>();
