@@ -9,7 +9,6 @@ import java.awt.Cursor;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.io.FileNotFoundException;
 
 /**
  * A small implementation of the game Chess using Java's Swing Library. This class starts by creating an
@@ -21,22 +20,18 @@ import java.io.FileNotFoundException;
  */
 public class Game implements MouseListener, MouseMotionListener {
     private static Board board;
-    private static Piece selectedPiece;
-    private static Tile sourceTile;
-    private static Tile destinationTile;
+    private static Piece piece;
+    private static Tile source;
+    private static Tile destination;
     private static Integer locationX;
     private static Integer locationY;
     public static Boolean shouldWhiteMove;
 
-    public Game() throws InterruptedException, FileNotFoundException {
+    public Game() {
+        // Creates new board that listens to the mouse motion
         board = new Board( this, this);
-        sourceTile = null;
-        destinationTile = null;
-        selectedPiece = null;
-        shouldWhiteMove = true;
-
-        //GameUtils.TestFenNotation(Board.getBoard());
-        GameUtils.ParseFenNotation(Board.getBoard());
+        // Set every relevant property of movements to null
+        source = null; destination = null; piece = null; shouldWhiteMove = true;
     }
 
     @Override
@@ -44,25 +39,25 @@ public class Game implements MouseListener, MouseMotionListener {
         Component component = board.getBoardPanel().findComponentAt(event.getX(), event.getY());
 
         if(component instanceof Piece) {
-            selectedPiece = (Piece) component;
+            piece = (Piece) component;
 
-            if(shouldWhiteMove != selectedPiece.getColor()) {
-                selectedPiece = null; return;
+            if(shouldWhiteMove != piece.getColor()) {
+                piece = null; return;
             }
 
-            sourceTile = (Tile) selectedPiece.getParent();
-            locationX = sourceTile.getX() - event.getX();
-            locationY = sourceTile.getY() - event.getY();
-            selectedPiece.setLocation(event.getX() + locationX, event.getY() + locationY);
-            board.getLayeredPane().add(selectedPiece, JLayeredPane.DRAG_LAYER);
+            source = (Tile) piece.getParent();
+            locationX = source.getX() - event.getX();
+            locationY = source.getY() - event.getY();
+            piece.setLocation(event.getX() + locationX, event.getY() + locationY);
+            board.getLayeredPane().add(piece, JLayeredPane.DRAG_LAYER);
             board.getLayeredPane().setCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));
         }
     }
 
     @Override
     public void mouseDragged(MouseEvent event) {
-        if (selectedPiece != null) {
-            selectedPiece.setLocation(
+        if (piece != null) {
+            piece.setLocation(
                 Math.max(Math.min(event.getX() + locationX, 815), 0),
                 Math.max(Math.min(event.getY() + locationY, 815), 0)
             );
@@ -73,39 +68,38 @@ public class Game implements MouseListener, MouseMotionListener {
     public void mouseReleased(MouseEvent event) {
         board.getLayeredPane().setCursor(null);
 
-        if(selectedPiece != null) {
-            selectedPiece.setVisible(false);
-            board.getLayeredPane().remove(selectedPiece);
-            selectedPiece.setVisible(true);
+        if(piece != null) {
+            piece.setVisible(false);
+            board.getLayeredPane().remove(piece);
+            piece.setVisible(true);
 
             Component component = board.getBoardPanel().findComponentAt(
                     Math.max(Math.min(event.getX(), 815), 0),
                     Math.max(Math.min(event.getY(), 815), 0));
 
-            if(component instanceof Piece) destinationTile = (Tile) component.getParent();
-            else destinationTile = (Tile) component;
-            selectedPiece.movePiece(sourceTile, destinationTile);
+            if(component instanceof Piece) destination = (Tile) component.getParent();
+            else destination = (Tile) component;
+            piece.movePiece(source, destination);
         }
-
-        selectedPiece = null;
+        piece = null;
     }
+
 
     /* UNSUPPORTED OPERATIONS */
     ///////////////////////////////////////////////////////////////
     @Override
-    public void mouseEntered(MouseEvent e) {}
+    public void mouseEntered(MouseEvent event) {}
 
     @Override
-    public void mouseExited(MouseEvent e) {}
+    public void mouseExited(MouseEvent event) {}
 
     @Override
-    public void mouseMoved(MouseEvent e) {}
-
+    public void mouseMoved(MouseEvent event) {}
     @Override
     public void mouseClicked(MouseEvent event) {}
     ///////////////////////////////////////////////////////////////
 
-    public static void main(String[] args) throws InterruptedException, FileNotFoundException {
+    public static void main(String[] args) {
         new Game();
     }
 }

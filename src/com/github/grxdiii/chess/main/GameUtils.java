@@ -2,7 +2,9 @@ package com.github.grxdiii.chess.main;
 
 import com.github.grxdiii.chess.graphic.Board;
 import com.github.grxdiii.chess.graphic.Tile;
+import com.github.grxdiii.chess.pieces.Piece;
 
+import javax.swing.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
@@ -36,10 +38,9 @@ public class GameUtils {
                 else if(type.equals("king")) System.out.print("K ");
                 else if(color) System.out.print(type.charAt(0) + " ");
                 else System.out.print(type.toUpperCase().charAt(0) + " ");
-            }   else System.out.print("- ");    } System.out.println(" ");
-        }
-
-        System.out.println(" ");
+            }   else System.out.print("- ");}
+            System.out.println(" ");
+        }   System.out.println(" ");
     }
 
     /**
@@ -136,5 +137,19 @@ public class GameUtils {
             produceFEN(board);
             Thread.sleep(150);
         }
+    }
+
+    public static void animate(Board board){
+        Piece piece = Board.getBoard()[0][0].getPiece();
+        Tile current = Board.getBoard()[0][0];
+
+
+        int locationX = current.getX();
+        int locationY = current.getY();
+        piece.setLocation(locationX, locationY);
+
+        System.out.println(locationY);
+
+        board.getLayeredPane().add(piece, JLayeredPane.DRAG_LAYER);
     }
 }
