@@ -8,6 +8,9 @@ import java.util.ArrayList;
  * @version 1.0
  */
 public class Pawn extends Piece {
+    protected Boolean enPassant;
+    protected Boolean enPassantChecked;
+
     /**
      * The Pawn constructor calls the Piece constructor in order to create a piece with the type Pawn,
      * giving it the different properties of every chess pieces, including a color and a location
@@ -22,6 +25,8 @@ public class Pawn extends Piece {
     public Pawn(String type, boolean color, int locationX, int locationY) {
         super(type, color, locationX, locationY);
         if((locationX != 6 && color) || (locationX != 1 && !color)) numMoves = 1;
+        enPassant = false;
+        enPassantChecked = false;
     }
 
     /**
@@ -121,8 +126,8 @@ public class Pawn extends Piece {
             // Calculate capture moves.
             // Pawns are allowed to capture enemy pieces that reside diagonally from them
             if(move_type % 2 == 0) {
-                boolean canAddFirstMove = isTileAvailable(destination_x, locationY - 1);
-                boolean canAddSecondMove = isTileAvailable(destination_x, locationY + 1);
+                boolean canAddFirstMove = isValidMove(destination_x, locationY - 1);
+                boolean canAddSecondMove = isValidMove(destination_x, locationY + 1);
                 if(canAddFirstMove) moves.add(board[destination_x][locationY - 1]);
                 if(canAddSecondMove) moves.add(board[destination_x][locationY + 1]);
             }

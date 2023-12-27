@@ -17,40 +17,21 @@ public class Bishop extends Piece {
     @Override
     public ArrayList<Tile> legalMoves() {
         moves = new ArrayList<>();
-        int move = 1;
 
-        while(locationX - move >= 0 && locationY - move >= 0) {
-            if(board[locationX - move][locationY - move].getPiece() == null ||
-               board[locationX - move][locationY - move].getPiece().getColor() != color) {
-               moves.add(board[locationX - move][locationY - move]);
-               move++;
-            }  else break;
-        }      move = 1;
+        // Iterates through the four potential direction in which the bishop can move to.
+        // According to classical Chess rules, the Bishop can move freely diagonally if there
+        // are no frigidly pieces blocking it. The direction in which it move is also the
+        // direction in which it captures enemy piece
+        for(int move_type = 0; move_type < 4; move_type++) {
+            int potential_x = move_type < 2 ? locationX - 1 : locationX + 1;
+            int potential_y = move_type % 2 == 0 ? locationY - 1 : locationY + 1;
 
-
-        while(locationX - move >= 0 && locationY + move <= 7) {
-            if(board[locationX - move][locationY + move].getPiece() == null ||
-               board[locationX - move][locationY + move].getPiece().getColor() != color) {
-               moves.add(board[locationX - move][locationY + move]);
-               move++;
-            }  else break;
-        }      move = 1;
-
-        while(locationX + move <= 7 && locationY - move >= 0) {
-            if(board[locationX + move][locationY - move].getPiece() == null ||
-               board[locationX + move][locationY - move].getPiece().getColor() != color) {
-               moves.add(board[locationX + move][locationY - move]);
-               move++;
-            }  else break;
-        }      move = 1;
-
-
-        while(locationX + move <= 7 && locationY + move <= 7) {
-            if(board[locationX + move][locationY + move].getPiece() == null ||
-               board[locationX + move][locationY + move].getPiece().getColor() != color) {
-               moves.add(board[locationX + move][locationY + move]);
-               move++;
-            }  else break;
+            while(isTileAvailable(potential_x, potential_y)) {
+                moves.add(board[potential_x][potential_y]);
+                if(board[potential_x][potential_y].isOccupied) break;
+                potential_x = move_type < 2 ? potential_x - 1 : potential_x + 1;
+                potential_y = move_type % 2 == 0 ? potential_y - 1 : potential_y + 1;
+            }
         }
 
         return moves;

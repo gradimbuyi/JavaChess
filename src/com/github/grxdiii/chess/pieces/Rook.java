@@ -9,8 +9,6 @@ import java.util.ArrayList;
  * @version 1.0
  */
 public class Rook extends Piece {
-    private Boolean canCastle;
-
     // SEE DEFINITION @ Piece.java
     public Rook(String type, boolean color, int locationX, int locationY) {
         super(type, color, locationX, locationY);
@@ -21,7 +19,7 @@ public class Rook extends Piece {
     public ArrayList<Tile> legalMoves() {
         moves = new ArrayList<>();
 
-        // Iterates through the four potential direction in which the rook can move.
+        // Iterates through the four potential direction in which the rook can move to.
         // According to classical Chess rules, the Rook can move freely forward, backward, and sideways
         // if there are no friendly pieces blocking it. The direction in which it moves is also the
         // direction in which it captures enemy pieces.

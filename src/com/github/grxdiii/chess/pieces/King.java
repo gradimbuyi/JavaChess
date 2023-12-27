@@ -1,5 +1,6 @@
 package com.github.grxdiii.chess.pieces;
 
+import com.github.grxdiii.chess.graphic.Board;
 import com.github.grxdiii.chess.graphic.Tile;
 import java.util.ArrayList;
 
@@ -8,7 +9,6 @@ import java.util.ArrayList;
  * @version 1.0
  */
 public class King extends Piece {
-
     // SEE DEFINITION @ Piece.java
     public King(String type, boolean color, int locationX, int locationY) {
         super(type, color, locationX, locationY);
@@ -57,6 +57,9 @@ public class King extends Piece {
                     board[locationX][2].addPiece(this);
                     board[locationX][3].addPiece(rook);
                 }
+
+                // UPDATES THE BOARD COLOR
+                Board.updateBoard(locationX, 4, locationX, direction ? 6 : 2);
 
                 // Tells Piece.MovePiece that King has been castled
                 return true;

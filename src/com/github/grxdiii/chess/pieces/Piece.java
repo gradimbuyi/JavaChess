@@ -109,7 +109,10 @@ public abstract class Piece extends JLabel {
                 // we continue and calculate the king's legal moves
                 if(locationY <= 2 || locationY >= 6) {
                     boolean castle = ((King) this).performCastling(locationY);
-                    if(castle) return false;
+                    if(castle) {
+                        Game.shouldWhiteMove = !Game.shouldWhiteMove;
+                        return false;
+                    }
                 }
             }
         }
@@ -122,6 +125,14 @@ public abstract class Piece extends JLabel {
                 sourceTile.removePiece();
                 Game.shouldWhiteMove = !Game.shouldWhiteMove;
                 numMoves++;
+
+                // UPDATES THE BOARD COLOR
+                int source_x = sourceTile.getLocationX();
+                int source_y = sourceTile.getLocationY();
+                int destination_x = destinationTile.getLocationX();
+                int destination_y = destinationTile.getLocationY();
+
+                Board.updateBoard(source_x, source_y, destination_x, destination_y);
 
                 // adds piece to destination tile
                 return destinationTile.addPiece(this);
