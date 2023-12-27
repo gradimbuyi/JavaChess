@@ -32,11 +32,11 @@ public class Tile extends JPanel {
 
     public void removePiece() {
         if(this.piece == null) return;
+
         isOccupied = false;
         remove(piece);
         piece = null;
         repaint();
-
     }
 
     public boolean addPiece(Piece piece) {

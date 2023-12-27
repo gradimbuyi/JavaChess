@@ -50,9 +50,8 @@ public class Board {
     private static final GridLayout GRID_LAYOUT = new GridLayout(8, 8);
     private static final Tile[][] TILE_MATRIX = new Tile[8][8];
     private static final String STARTING_POSITION = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
-    private static Piece WHITE_KING = null;
-    private static Piece BLACK_KING = null;
-
+    private static Tile source = null;
+    private static Tile destination = null;
     /**
      * The constructor for the Board class produces a JFrame with a width of 920 pixels and a
      * height of 948 pixels, as well as a Panel and LayerPane of 920x920 pixels. It takes as
@@ -81,16 +80,19 @@ public class Board {
         BOARD_PANEL.setBounds(0, 0, PANEL_WIDTH, PANEL_HEIGHT);
         LAYERED_PANE.add(BOARD_PANEL, JLayeredPane.DEFAULT_LAYER);
 
-        /* Generates each chess tile, saving them in a 2d array named TILE_MATRIX */
+        // Generates each chess tile, saving them in a 2d array named TILE_MATRIX
         for(int locationX = 0; locationX < 8; locationX++) {
             for(int locationY = 0; locationY < 8; locationY++) {
+                // Evaluates tile background color
+                Color background = locationX % 2 == locationY % 2 ? LIGHT : DARK;
+
+                // Creates new tile
                 TILE_MATRIX[locationX][locationY] = new Tile(locationX, locationY);
-                TILE_MATRIX[locationX][locationY].setBackground(locationX % 2 == locationY % 2 ? LIGHT : DARK);
+                TILE_MATRIX[locationX][locationY].setBackground(background);
                 BOARD_PANEL.add(TILE_MATRIX[locationX][locationY]);
             }
         }
 
-        //generatePieces(STARTING_POSITION);
         generatePieces(STARTING_POSITION);
         BOARD_FRAME.setVisible(true);
     }
@@ -120,13 +122,6 @@ public class Board {
             default: return null;
         }
 
-        // This portion of the code guarantees that we will only have one king on the Board
-        if(piece instanceof King) {
-                 if(color  && WHITE_KING == null) WHITE_KING = piece;
-            else if(!color && BLACK_KING == null) BLACK_KING = piece;
-            else return null;
-        }
-
         // Adds the piece on the board
         TILE_MATRIX[locationX][locationY].addPiece(piece);
         return piece;
@@ -154,8 +149,8 @@ public class Board {
     public static void generatePieces(String fenNotation) {
         int x = 0; int y = 0; char buffer;
 
-        /* Iterates through the 2d array of tiles, and removes pieces. This is done to restart the state
-         * of the game */
+        // Iterates through the 2d array of tiles, and removes pieces. This is done to restart
+        // the state of the game
         for(int locationX = 0; locationX < 8; locationX++) {
             for(int locationY = 0; locationY < 8; locationY++) {
                 TILE_MATRIX[locationX][locationY].removePiece();
@@ -187,6 +182,33 @@ public class Board {
         }
     }
 
+    /**
+     *
+     * @param source_x
+     * @param source_y
+     * @param destination_x
+     * @param destination_y
+     */
+    public static void updateBoard(int source_x, int source_y, int destination_x, int destination_y) {
+        if(source != null && destination != null) {
+            Color source_color = source.getLocationX() % 2 == source.getLocationY() % 2 ? LIGHT : DARK;
+            Color destination_color = destination.getLocationX() % 2 == destination.getLocationY() % 2 ? LIGHT : DARK;
+            source.setBackground(source_color);
+            destination.setBackground(destination_color);
+        }
+
+        Color type_one = Color.decode("#b5d3ff");
+        Color type_two = Color.decode("#4c8aed");
+        Tile newSource = TILE_MATRIX[source_x][source_y];
+        Tile newDestination = TILE_MATRIX[destination_x][destination_y];
+        if(newSource.getBackground() == LIGHT) newSource.setBackground(type_one);
+        else if(newSource.getBackground() == DARK) newSource.setBackground(type_two);
+        if(newDestination.getBackground() == LIGHT) newDestination.setBackground(type_one);
+        else if(newDestination.getBackground() == DARK) newDestination.setBackground(type_two);
+        source = newSource; destination = newDestination;
+        BOARD_PANEL.repaint();
+    }
+
     /** GETTERS AND SETTERS **/
     public static Tile[][] getBoard() {
         return TILE_MATRIX;
@@ -198,13 +220,5 @@ public class Board {
 
     public JLayeredPane getLayeredPane() {
         return LAYERED_PANE;
-    }
-
-    public static Piece getWhiteKing() {
-         return WHITE_KING;
-    }
-
-    public static Piece getBlackKing() {
-        return BLACK_KING;
     }
 }
